@@ -1,13 +1,25 @@
 import OfferCard from '../../components/offer-card/offer-card';
 
-function MainScreen (): JSX.Element {
+type MainScreenProps = {
+  offersCount: number;
+}
+
+function MainScreen ({offersCount}: MainScreenProps): JSX.Element {
+  const getOfferCards = (count: number): JSX.Element[] => {
+    const content = [];
+    for (let i = 0; i < count; i++) {
+      content.push(<OfferCard />);
+    }
+    return content;
+  };
+
   return (
     <div className="page page--gray page--main">
       <header className="header">
         <div className="container">
           <div className="header__wrapper">
             <div className="header__left">
-              <a className="header__logo-link header__logo-link--active">
+              <a className="header__logo-link header__logo-link--active" href='#a'>
                 <img
                   className="header__logo"
                   src="img/logo.svg"
@@ -22,7 +34,7 @@ function MainScreen (): JSX.Element {
                 <li className="header__nav-item user">
                   <a
                     className="header__nav-link header__nav-link--profile"
-                    href="#"
+                    href="#a"
                   >
                     <div className="header__avatar-wrapper user__avatar-wrapper"></div>
                     <span className="header__user-name user__name">
@@ -32,7 +44,7 @@ function MainScreen (): JSX.Element {
                   </a>
                 </li>
                 <li className="header__nav-item">
-                  <a className="header__nav-link" href="#">
+                  <a className="header__nav-link" href="#a">
                     <span className="header__signout">Sign out</span>
                   </a>
                 </li>
@@ -47,32 +59,32 @@ function MainScreen (): JSX.Element {
           <section className="locations container">
             <ul className="locations__list tabs__list">
               <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
+                <a className="locations__item-link tabs__item" href="#a">
                   <span>Paris</span>
                 </a>
               </li>
               <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
+                <a className="locations__item-link tabs__item" href="#a">
                   <span>Cologne</span>
                 </a>
               </li>
               <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
+                <a className="locations__item-link tabs__item" href="#a">
                   <span>Brussels</span>
                 </a>
               </li>
               <li className="locations__item">
-                <a className="locations__item-link tabs__item tabs__item--active">
+                <a className="locations__item-link tabs__item tabs__item--active" href='#a'>
                   <span>Amsterdam</span>
                 </a>
               </li>
               <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
+                <a className="locations__item-link tabs__item" href="#a">
                   <span>Hamburg</span>
                 </a>
               </li>
               <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
+                <a className="locations__item-link tabs__item" href="#a">
                   <span>Dusseldorf</span>
                 </a>
               </li>
@@ -111,11 +123,7 @@ function MainScreen (): JSX.Element {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                <OfferCard />
-                <OfferCard />
-                <OfferCard />
-                <OfferCard />
-                <OfferCard />
+                {getOfferCards(offersCount)}
               </div>
             </section>
             <div className="cities__right-section">
