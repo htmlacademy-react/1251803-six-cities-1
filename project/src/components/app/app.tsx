@@ -1,4 +1,11 @@
+import { Route, BrowserRouter, Routes } from 'react-router-dom';
+import { AppRoute } from '../../const';
 import MainScreen from '../../pages/main-screen/main-screen';
+import LoginScreen from '../../pages/login-screen/login-screen';
+import FavoritesScreen from '../../pages/favorites-screen/favorites-screen';
+import OfferScreen from '../../pages/offer-screen/offer-screen';
+import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
+import ScrollToTop from '../scroll-to-top/scroll-to-rop';
 
 type AppScreenProps = {
   offersCount: number;
@@ -6,7 +13,33 @@ type AppScreenProps = {
 
 function App({offersCount}: AppScreenProps): JSX.Element {
   return (
-    <MainScreen offersCount={offersCount} />
+    <BrowserRouter>
+      <ScrollToTop />
+      <Routes>
+        <Route path={AppRoute.Root}>
+          <Route
+            index
+            element={<MainScreen offersCount={offersCount} />}
+          />
+          <Route
+            path={AppRoute.Login}
+            element={<LoginScreen />}
+          />
+          <Route
+            path={AppRoute.Favorites}
+            element={<FavoritesScreen />}
+          />
+          <Route
+            path={AppRoute.Room}
+            element={<OfferScreen />}
+          />
+        </Route>
+        <Route
+          path="*"
+          element={<NotFoundScreen />}
+        />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
