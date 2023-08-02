@@ -1,5 +1,6 @@
 import { Route, BrowserRouter, Routes } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const';
+import { HelmetProvider } from 'react-helmet-async';
 import MainScreen from '../../pages/main-screen/main-screen';
 import LoginScreen from '../../pages/login-screen/login-screen';
 import FavoritesScreen from '../../pages/favorites-screen/favorites-screen';
@@ -14,39 +15,41 @@ type AppScreenProps = {
 
 function App({offersCount}: AppScreenProps): JSX.Element {
   return (
-    <BrowserRouter>
-      <ScrollToTop />
-      <Routes>
-        <Route path={AppRoute.Root}>
+    <HelmetProvider>
+      <BrowserRouter>
+        <ScrollToTop />
+        <Routes>
+          <Route path={AppRoute.Root}>
+            <Route
+              index
+              element={<MainScreen offersCount={offersCount} />}
+            />
+            <Route
+              path={AppRoute.Login}
+              element={<LoginScreen />}
+            />
+            <Route
+              path={AppRoute.Favorites}
+              element={
+                <PrivateRoute
+                  authorizationStatus={AuthorizationStatus.NoAuth}
+                >
+                  <FavoritesScreen />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path={AppRoute.Room}
+              element={<OfferScreen />}
+            />
+          </Route>
           <Route
-            index
-            element={<MainScreen offersCount={offersCount} />}
+            path={AppRoute.NotFound}
+            element={<NotFoundScreen />}
           />
-          <Route
-            path={AppRoute.Login}
-            element={<LoginScreen />}
-          />
-          <Route
-            path={AppRoute.Favorites}
-            element={
-              <PrivateRoute
-                authorizationStatus={AuthorizationStatus.NoAuth}
-              >
-                <FavoritesScreen />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path={AppRoute.Room}
-            element={<OfferScreen />}
-          />
-        </Route>
-        <Route
-          path={AppRoute.NotFound}
-          element={<NotFoundScreen />}
-        />
-      </Routes>
-    </BrowserRouter>
+        </Routes>
+      </BrowserRouter>
+    </HelmetProvider>
   );
 }
 
