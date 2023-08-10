@@ -8,12 +8,13 @@ import OfferScreen from '../../pages/offer-screen/offer-screen';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import ScrollToTop from '../scroll-to-top/scroll-to-rop';
 import PrivateRoute from '../private-route/private-route';
+import { Offers } from '../../types/offer';
 
 type AppScreenProps = {
-  offersCount: number;
+  offers: Offers;
 }
 
-function App({offersCount}: AppScreenProps): JSX.Element {
+function App({offers}: AppScreenProps): JSX.Element {
   return (
     <HelmetProvider>
       <BrowserRouter>
@@ -22,7 +23,7 @@ function App({offersCount}: AppScreenProps): JSX.Element {
           <Route path={AppRoute.Root}>
             <Route
               index
-              element={<MainScreen offersCount={offersCount} />}
+              element={<MainScreen offers={offers} />}
             />
             <Route
               path={AppRoute.Login}
@@ -32,9 +33,9 @@ function App({offersCount}: AppScreenProps): JSX.Element {
               path={AppRoute.Favorites}
               element={
                 <PrivateRoute
-                  authorizationStatus={AuthorizationStatus.NoAuth}
+                  authorizationStatus={AuthorizationStatus.Auth}
                 >
-                  <FavoritesScreen />
+                  <FavoritesScreen offers={offers} />
                 </PrivateRoute>
               }
             />
