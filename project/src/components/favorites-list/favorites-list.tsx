@@ -1,6 +1,8 @@
 import OfferCard from '../offer-card/offer-card';
 import { Offers } from '../../types/offer';
 import { Pages } from '../../const';
+import { Link } from 'react-router-dom';
+import { AppRoute } from '../../const';
 
 type OfferCardProps = {
   offersData: Offers;
@@ -25,9 +27,9 @@ function FavoritesList ({offersData}: OfferCardProps): JSX.Element {
           <li key={keyValue} className="favorites__locations-items">
             <div className="favorites__locations locations locations--current">
               <div className="locations__item">
-                <a className="locations__item-link" href="#a">
+                <Link className="locations__item-link" to={AppRoute.Root}>
                   <span>{location}</span>
-                </a>
+                </Link>
               </div>
             </div>
             <div className="favorites__places">

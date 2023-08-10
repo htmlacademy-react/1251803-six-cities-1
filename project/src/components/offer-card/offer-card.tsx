@@ -1,5 +1,7 @@
 import { Offer } from '../../types/offer';
 import { Pages } from '../../const';
+import { Link } from 'react-router-dom';
+import { AppRoute } from '../../const';
 
 type OfferCardProps = {
   offerData: Offer;
@@ -47,7 +49,7 @@ function OfferCard ({id, offerData, page, onMouseOver}: OfferCardProps): JSX.Ele
         </div>
       )}
       <div className={`${page}__image-wrapper place-card__image-wrapper`}>
-        <a href="#a">
+        <Link to={AppRoute.Room}>
           <img
             className="place-card__image"
             src={offerData.imgs[0].src}
@@ -55,7 +57,7 @@ function OfferCard ({id, offerData, page, onMouseOver}: OfferCardProps): JSX.Ele
             height={imgSize.height}
             alt={offerData.imgs[0].alt}
           />
-        </a>
+        </Link>
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
@@ -84,9 +86,9 @@ function OfferCard ({id, offerData, page, onMouseOver}: OfferCardProps): JSX.Ele
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#a">
+          <Link to={AppRoute.Room}>
             {offerData.name}
-          </a>
+          </Link>
         </h2>
         <p className="place-card__type">{offerData.type}</p>
       </div>
