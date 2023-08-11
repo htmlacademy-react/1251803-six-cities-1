@@ -9,7 +9,6 @@ type OfferCardProps = {
   onMouseOver?: (key: number) => void;
 };
 
-// TODO: избавиться от пропса id
 function OfferCard ({offerData, page, onMouseOver}: OfferCardProps): JSX.Element {
   const isMark = offerData.isFavorite ? 'place-card__bookmark-button--active' : '';
   const handleMouseOver = () => {
