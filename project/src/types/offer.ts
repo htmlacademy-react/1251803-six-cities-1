@@ -1,21 +1,42 @@
-export type RoomImg = {
-  src: string;
-  alt: string;
+export type City = {
+  name: string;
+  location: {
+    latitude: number;
+    longitude: number;
+    zoom: number;
+  };
+}
+
+export type Host = {
+  id: number;
+  name: string;
+  isPro: boolean;
+  avatarUrl: string;
+}
+
+export type Location = {
+  latitude: number;
+  longitude: number;
+  zoom: number;
 }
 
 export type Offer = {
-  id: number;
-  name: string;
-  imgs: RoomImg[];
+  city: City;
+  previewImage: string;
+  images: string[];
+  title: string;
+  isFavorite: boolean;
   isPremium: boolean;
-  isMark: boolean;
-  price: number;
   rating: number;
   type: string;
-  bedroomsCount: number;
-  adultsCount: number;
-  location: string;
-  features: string[];
+  bedrooms: number;
+  maxAdults: number;
+  price: number;
+  goods: string[];
+  host: Host;
+  description: string;
+  location: Location;
+  id: number;
 }
 
 export type Offers = Offer[];

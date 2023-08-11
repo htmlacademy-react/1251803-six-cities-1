@@ -9,20 +9,15 @@ type OfferCardProps = {
 };
 
 function FavoritesList ({offersData}: OfferCardProps): JSX.Element {
-  const favorites = offersData.filter((offer) => offer.isMark === true);
-  // Здесь вылетает ошибка с any!!
-  // eslint-disable-next-line
-  const locations = favorites.map((offer) => offer.location);
+  const favorites = offersData.filter((offer) => offer.isFavorite === true);
+  const locations = favorites.map((offer) => offer.city.name);
   const uniqueLocations = Array.from(new Set(locations));
 
   return (
     <ul className="favorites__list">
-      {uniqueLocations.map((location, id) => {
-        // Почему нельзя использовать id в key!!
-        // Здесь вылетает ошибка с any!!
-        // eslint-disable-next-line
-        const keyValue = `${id}-${location}`;
-        const localOffers = favorites.filter((offer) => offer.location === location);
+      {uniqueLocations.map((location) => {
+        const keyValue = `${location}`;
+        const localOffers = favorites.filter((offer) => offer.city.name === location);
         return (
           <li key={keyValue} className="favorites__locations-items">
             <div className="favorites__locations locations locations--current">
@@ -38,7 +33,6 @@ function FavoritesList ({offersData}: OfferCardProps): JSX.Element {
                 return (
                   <OfferCard
                     key={currentOffer.id}
-                    id={currentOffer.id}
                     offerData={currentOffer}
                     page={Pages.Favorites}
                   />

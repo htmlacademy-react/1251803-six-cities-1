@@ -83,10 +83,7 @@ function MainScreen ({offers}: MainScreenProps): JSX.Element {
                   </li>
                 </ul>
               </form>
-              <div className="cities__places-list places__list tabs__content">
-                {/* Вопрос про правильность вставки!! */}
-                <OffersList offersData={offers}/>
-              </div>
+              <OffersList offersData={offers}/>
             </section>
             <div className="cities__right-section">
               <section className="cities__map map" />

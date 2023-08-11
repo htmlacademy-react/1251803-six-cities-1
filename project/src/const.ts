@@ -2,8 +2,9 @@ export enum AppRoute {
   Root = '/',
   Login = '/login',
   Favorites = '/favorites',
-  Room = '/offer/:id',
-  NotFound = '*',
+  Room = '/offer',
+  NotFound = '/*',
+  NotFoundPage = '/not-found',
 }
 
 export enum AuthorizationStatus {
@@ -12,7 +13,6 @@ export enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
-// Проверить правильность подхода!!
 export enum Pages {
   Main = 'cities',
   Favorites = 'favorites'

@@ -1,8 +1,28 @@
 import Header from '../../components/header/header';
 import { Helmet } from 'react-helmet-async';
 import FeedbackForm from '../../components/feedback-form/feedback-form';
+import { useParams, Navigate } from 'react-router-dom';
+import { Offers } from '../../types/offer';
+import { AppRoute } from '../../const';
 
-function OfferScreen(): JSX.Element {
+type OfferScreenProps = {
+  offers: Offers;
+}
+
+function OfferScreen({offers}: OfferScreenProps): JSX.Element {
+  const params = useParams();
+
+  const currentOffer = offers.find((offer) => {
+    const id = String(offer.id);
+    return (id === params.id);
+  });
+
+  if (!currentOffer) {
+    return <Navigate to={AppRoute.NotFoundPage} />;
+  }
+
+  const isFavorite = currentOffer.isFavorite ? 'property__bookmark-button--active' : '';
+
   return (
     <div className="page">
       <Helmet>
@@ -13,60 +33,32 @@ function OfferScreen(): JSX.Element {
         <section className="property">
           <div className="property__gallery-container container">
             <div className="property__gallery">
-              <div className="property__image-wrapper">
-                <img
-                  className="property__image"
-                  src="img/room.jpg"
-                  alt="studio"
-                />
-              </div>
-              <div className="property__image-wrapper">
-                <img
-                  className="property__image"
-                  src="img/apartment-01.jpg"
-                  alt="studio"
-                />
-              </div>
-              <div className="property__image-wrapper">
-                <img
-                  className="property__image"
-                  src="img/apartment-02.jpg"
-                  alt="studio"
-                />
-              </div>
-              <div className="property__image-wrapper">
-                <img
-                  className="property__image"
-                  src="img/apartment-03.jpg"
-                  alt="studio"
-                />
-              </div>
-              <div className="property__image-wrapper">
-                <img
-                  className="property__image"
-                  src="img/studio-01.jpg"
-                  alt="studio"
-                />
-              </div>
-              <div className="property__image-wrapper">
-                <img
-                  className="property__image"
-                  src="img/apartment-01.jpg"
-                  alt="studio"
-                />
-              </div>
+              {currentOffer.images.map((img, id) => {
+                const keyValue = `${id}-${img}`;
+                return (
+                  <div key={keyValue} className="property__image-wrapper">
+                    <img
+                      className="property__image"
+                      src={img}
+                      alt=""
+                    />
+                  </div>
+                );
+              })}
             </div>
           </div>
           <div className="property__container container">
             <div className="property__wrapper">
-              <div className="property__mark">
-                <span>Premium</span>
-              </div>
+              {currentOffer.isPremium && (
+                <div className="property__mark">
+                  <span>Premium</span>
+                </div>
+              )}
               <div className="property__name-wrapper">
                 <h1 className="property__name">
-                  Beautiful &amp; luxurious studio at great location
+                  {currentOffer.title}
                 </h1>
-                <button className="property__bookmark-button button" type="button">
+                <button className={`${isFavorite} property__bookmark-button button`} type="button">
                   <svg className="property__bookmark-icon" width={31} height={33}>
                     <use xlinkHref="#icon-bookmark" />
                   </svg>
@@ -75,24 +67,24 @@ function OfferScreen(): JSX.Element {
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">
-                  <span style={{ width: '80%' }} />
+                  <span style={{ width: `${currentOffer.rating * 20}%` }} />
                   <span className="visually-hidden">Rating</span>
                 </div>
-                <span className="property__rating-value rating__value">4.8</span>
+                <span className="property__rating-value rating__value">{currentOffer.rating}</span>
               </div>
               <ul className="property__features">
                 <li className="property__feature property__feature--entire">
-                  Apartment
+                  {currentOffer.type}
                 </li>
                 <li className="property__feature property__feature--bedrooms">
-                  3 Bedrooms
+                  {currentOffer.bedrooms} Bedrooms
                 </li>
                 <li className="property__feature property__feature--adults">
-                  Max 4 adults
+                  Max {currentOffer.maxAdults} adults
                 </li>
               </ul>
               <div className="property__price">
-                <b className="property__price-value">€120</b>
+                <b className="property__price-value">€{currentOffer.price}</b>
                 <span className="property__price-text">&nbsp;night</span>
               </div>
               <div className="property__inside">

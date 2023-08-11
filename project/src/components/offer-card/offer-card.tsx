@@ -5,42 +5,45 @@ import { AppRoute } from '../../const';
 
 type OfferCardProps = {
   offerData: Offer;
-  id: number;
   page: string;
   onMouseOver?: (key: number) => void;
 };
 
-function OfferCard ({id, offerData, page, onMouseOver}: OfferCardProps): JSX.Element {
-  // Вопрос про правильность приема!!
-  const isMark = offerData.isMark ? 'place-card__bookmark-button--active' : '';
+// TODO: избавиться от пропса id
+function OfferCard ({offerData, page, onMouseOver}: OfferCardProps): JSX.Element {
+  const isMark = offerData.isFavorite ? 'place-card__bookmark-button--active' : '';
   const handleMouseOver = () => {
     if (onMouseOver) {
-      onMouseOver(id);
+      onMouseOver(offerData.id);
     }
   };
 
-  // Вопрос про объявление!!
-  const imgSize = {
-    width: 260,
-    height: 200,
+  const getImgSizeByPage = (pageName: string) => {
+    const imgSize = {
+      width: 260,
+      height: 200,
+    };
+
+    switch(pageName) {
+      case Pages.Main:
+        imgSize.width = 260;
+        imgSize.height = 200;
+        break;
+
+      case Pages.Favorites:
+        imgSize.width = 150;
+        imgSize.height = 100;
+        break;
+    }
+
+    return imgSize;
   };
 
-  switch(page) {
-    case Pages.Main:
-      imgSize.width = 260;
-      imgSize.height = 200;
-      break;
-
-    case Pages.Favorites:
-      imgSize.width = 150;
-      imgSize.height = 100;
-      break;
-  }
+  const imgSize = getImgSizeByPage(page);
 
   return (
     <article
       className={`${page}__card place-card`}
-      id={`${id}`}
       onMouseOver={handleMouseOver}
     >
       {offerData.isPremium && (
@@ -49,13 +52,13 @@ function OfferCard ({id, offerData, page, onMouseOver}: OfferCardProps): JSX.Ele
         </div>
       )}
       <div className={`${page}__image-wrapper place-card__image-wrapper`}>
-        <Link to={AppRoute.Room}>
+        <Link to={`${AppRoute.Room}/${offerData.id}`}>
           <img
             className="place-card__image"
-            src={offerData.imgs[0].src}
+            src={offerData.previewImage}
             width={imgSize.width}
             height={imgSize.height}
-            alt={offerData.imgs[0].alt}
+            alt=""
           />
         </Link>
       </div>
@@ -81,13 +84,13 @@ function OfferCard ({id, offerData, page, onMouseOver}: OfferCardProps): JSX.Ele
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{ width: `${offerData.rating}%` }} />
+            <span style={{ width: `${offerData.rating * 20}%` }} />
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={AppRoute.Room}>
-            {offerData.name}
+          <Link to={`${AppRoute.Room}/${offerData.id}`}>
+            {offerData.title}
           </Link>
         </h2>
         <p className="place-card__type">{offerData.type}</p>

@@ -40,10 +40,14 @@ function App({offers}: AppScreenProps): JSX.Element {
               }
             />
             <Route
-              path={AppRoute.Room}
-              element={<OfferScreen />}
+              path={`${AppRoute.Room}/:id`}
+              element={<OfferScreen offers={offers} />}
             />
           </Route>
+          <Route
+            path={AppRoute.NotFoundPage}
+            element={<NotFoundScreen />}
+          />
           <Route
             path={AppRoute.NotFound}
             element={<NotFoundScreen />}

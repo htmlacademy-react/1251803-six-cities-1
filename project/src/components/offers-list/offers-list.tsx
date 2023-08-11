@@ -14,23 +14,19 @@ function OffersList ({offersData}: OfferCardProps): JSX.Element {
   };
 
   return (
-    // Вопрос про возврат!!
-    // Вопрос про ключ!!
-    // Вопрос про .env!!
-    <>
+    <div className="cities__places-list places__list tabs__content">
       {offersData.map((offer) => {
         const currentOffer = offer;
         return (
           <OfferCard
             key={currentOffer.id}
-            id={currentOffer.id}
             offerData={currentOffer}
             page={Pages.Main}
             onMouseOver={handleMouseOver}
           />
         );
       })}
-    </>
+    </div>
   );
 }
 
