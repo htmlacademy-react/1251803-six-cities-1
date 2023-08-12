@@ -1,20 +1,13 @@
-import OfferCard from '../../components/offer-card/offer-card';
 import Header from '../../components/header/header';
 import { Helmet } from 'react-helmet-async';
+import OffersList from '../../components/offers-list/offers-list';
+import { Offers } from '../../types/offer';
 
 type MainScreenProps = {
-  offersCount: number;
+  offers: Offers;
 }
 
-function MainScreen ({offersCount}: MainScreenProps): JSX.Element {
-  const getOfferCards = (count: number): JSX.Element[] => {
-    const content = [];
-    for (let i = 0; i < count; i++) {
-      content.push(<OfferCard />);
-    }
-    return content;
-  };
-
+function MainScreen ({offers}: MainScreenProps): JSX.Element {
   return (
     <div className="page page--gray page--main">
       <Helmet>
@@ -65,7 +58,7 @@ function MainScreen ({offersCount}: MainScreenProps): JSX.Element {
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">312 places to stay in Amsterdam</b>
               <form className="places__sorting" action="#" method="get">
-                <span className="places__sorting-caption">Sort by</span>
+                <span className="places__sorting-caption">Sort by </span>
                 <span className="places__sorting-type" tabIndex={0}>
                   Popular
                   <svg className="places__sorting-arrow" width={7} height={4}>
@@ -90,9 +83,7 @@ function MainScreen ({offersCount}: MainScreenProps): JSX.Element {
                   </li>
                 </ul>
               </form>
-              <div className="cities__places-list places__list tabs__content">
-                {getOfferCards(offersCount)}
-              </div>
+              <OffersList offersData={offers}/>
             </section>
             <div className="cities__right-section">
               <section className="cities__map map" />

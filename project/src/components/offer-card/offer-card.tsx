@@ -1,28 +1,74 @@
-function OfferCard (): JSX.Element {
+import { Offer } from '../../types/offer';
+import { Pages } from '../../const';
+import { Link } from 'react-router-dom';
+import { AppRoute } from '../../const';
+
+type OfferCardProps = {
+  offerData: Offer;
+  page: string;
+  onMouseOver?: (key: number) => void;
+};
+
+function OfferCard ({offerData, page, onMouseOver}: OfferCardProps): JSX.Element {
+  const isMark = offerData.isFavorite ? 'place-card__bookmark-button--active' : '';
+  const handleMouseOver = () => {
+    if (onMouseOver) {
+      onMouseOver(offerData.id);
+    }
+  };
+
+  const getImgSizeByPage = (pageName: string) => {
+    const imgSize = {
+      width: 260,
+      height: 200,
+    };
+
+    switch(pageName) {
+      case Pages.Main:
+        imgSize.width = 260;
+        imgSize.height = 200;
+        break;
+
+      case Pages.Favorites:
+        imgSize.width = 150;
+        imgSize.height = 100;
+        break;
+    }
+
+    return imgSize;
+  };
+
+  const imgSize = getImgSizeByPage(page);
+
   return (
-    <article className="cities__card place-card">
-      <div className="place-card__mark">
-        <span>Premium</span>
-      </div>
-      <div className="cities__image-wrapper place-card__image-wrapper">
-        <a href="#a">
+    <article
+      className={`${page}__card place-card`}
+      onMouseOver={handleMouseOver}
+    >
+      {offerData.isPremium && (
+        <div className="place-card__mark">
+          <span>Premium</span>
+        </div>
+      )}
+      <div className={`${page}__image-wrapper place-card__image-wrapper`}>
+        <Link to={`${AppRoute.Room}/${offerData.id}`}>
           <img
             className="place-card__image"
-            src="img/apartment-01.jpg"
-            width={260}
-            height={200}
-            alt="Place"
+            src={offerData.previewImage}
+            width={imgSize.width}
+            height={imgSize.height}
+            alt=""
           />
-        </a>
+        </Link>
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
-            <b className="place-card__price-value">€120</b>
+            <b className="place-card__price-value">€{offerData.price} </b>
             <span className="place-card__price-text">/&nbsp;night</span>
           </div>
           <button
-            className="place-card__bookmark-button button"
+            className={`${isMark} place-card__bookmark-button button`}
             type="button"
           >
             <svg
@@ -37,16 +83,16 @@ function OfferCard (): JSX.Element {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{ width: '80%' }} />
+            <span style={{ width: `${offerData.rating * 20}%` }} />
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#a">
-            Beautiful &amp; luxurious apartment at great location
-          </a>
+          <Link to={`${AppRoute.Room}/${offerData.id}`}>
+            {offerData.title}
+          </Link>
         </h2>
-        <p className="place-card__type">Apartment</p>
+        <p className="place-card__type">{offerData.type}</p>
       </div>
     </article>
   );
