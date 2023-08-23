@@ -3,11 +3,11 @@ import OfferCard from '../offer-card/offer-card';
 import { Offers } from '../../types/offer';
 import { Pages } from '../../const';
 
-type OfferCardProps = {
+type OffersListProps = {
   offersData: Offers;
 };
 
-function OffersList ({offersData}: OfferCardProps): JSX.Element {
+function OffersList ({offersData}: OffersListProps): JSX.Element {
   const [, setOfferId] = useState(0);
   const handleMouseOver = (id: number) => {
     setOfferId(id);

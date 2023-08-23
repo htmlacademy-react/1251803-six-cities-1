@@ -2,6 +2,7 @@ import Header from '../../components/header/header';
 import { Helmet } from 'react-helmet-async';
 import OffersList from '../../components/offers-list/offers-list';
 import { Offers } from '../../types/offer';
+import Map from '../../components/map/map';
 
 type MainScreenProps = {
   offers: Offers;
@@ -86,7 +87,7 @@ function MainScreen ({offers}: MainScreenProps): JSX.Element {
               <OffersList offersData={offers}/>
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map" />
+              <Map offers={offers} />
             </div>
           </div>
         </div>
