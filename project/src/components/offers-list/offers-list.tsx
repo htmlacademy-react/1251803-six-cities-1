@@ -5,12 +5,14 @@ import { Pages } from '../../const';
 
 type OffersListProps = {
   offersData: Offers;
+  onListItemHover: (listItemId: number) => void;
 };
 
-function OffersList ({offersData}: OffersListProps): JSX.Element {
+function OffersList ({offersData, onListItemHover}: OffersListProps): JSX.Element {
   const [, setOfferId] = useState(0);
   const handleMouseOver = (id: number) => {
     setOfferId(id);
+    onListItemHover(id);
   };
 
   return (
