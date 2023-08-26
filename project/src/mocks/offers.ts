@@ -1,6 +1,6 @@
 import {Offers} from '../types/offer';
 
-// TODO: Вопрос про зависимости
+// TODO: Вопрос про зависимости --only=dev
 
 export const offers: Offers = [
   {
