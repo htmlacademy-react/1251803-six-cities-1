@@ -7,6 +7,7 @@ import { AppRoute } from '../../const';
 import { reviews } from '../../mocks/reviews';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import Map from '../../components/map/map';
+import { offersNearby } from '../../mocks/offers-nearby';
 
 type OfferScreenProps = {
   offers: Offers;
@@ -135,7 +136,7 @@ function OfferScreen({offers}: OfferScreenProps): JSX.Element {
           </div>
           <section className="property__map map">
             <Map
-              offers={offers}
+              offers={offersNearby}
             />
           </section>
         </section>
