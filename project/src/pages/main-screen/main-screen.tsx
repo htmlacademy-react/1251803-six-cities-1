@@ -1,13 +1,23 @@
 import Header from '../../components/header/header';
 import { Helmet } from 'react-helmet-async';
 import OffersList from '../../components/offers-list/offers-list';
-import { Offers } from '../../types/offer';
+import { Offer, Offers } from '../../types/offer';
+import Map from '../../components/map/map';
+import { useState } from 'react';
 
 type MainScreenProps = {
   offers: Offers;
 }
 
 function MainScreen ({offers}: MainScreenProps): JSX.Element {
+  const [selectedPoint, setSelectedPoint] = useState<Offer | undefined>(undefined);
+
+  const onListItemHover = (listItemId: number) => {
+    const currentPoint = offers.find((offer) => offer.id === listItemId);
+
+    setSelectedPoint(currentPoint);
+  };
+
   return (
     <div className="page page--gray page--main">
       <Helmet>
@@ -83,10 +93,16 @@ function MainScreen ({offers}: MainScreenProps): JSX.Element {
                   </li>
                 </ul>
               </form>
-              <OffersList offersData={offers}/>
+              <OffersList
+                offersData={offers}
+                onListItemHover={onListItemHover}
+              />
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map" />
+              <Map
+                offers={offers}
+                selectedPoint={selectedPoint}
+              />
             </div>
           </div>
         </div>

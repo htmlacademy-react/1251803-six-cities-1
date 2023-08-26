@@ -1,14 +1,16 @@
 import {Offers} from '../types/offer';
 
+// TODO: Вопрос про зависимости
+
 export const offers: Offers = [
   {
     'city': {
-      'name': 'Paris',
+      'name': 'Amsterdam',
       'location': {
-        'latitude': 48.85661,
-        'longitude': 2.351499,
+        'latitude': 52.37454,
+        'longitude': 4.897976,
         'zoom': 13
-      }
+      },
     },
     'previewImage': 'https://12.react.pages.academy/static/hotel/6.jpg',
     'images': [
@@ -54,20 +56,20 @@ export const offers: Offers = [
     },
     'description': 'Relax, rejuvenate and unplug in this ultimate rustic getaway experience in the country. In our beautiful screened Pondhouse, you can gaze at the stars and listen to the sounds of nature from your cozy warm bed.',
     'location': {
-      'latitude': 48.877610000000004,
-      'longitude': 2.333499,
+      'latitude': 52.3909553943508,
+      'longitude': 4.85309666406198,
       'zoom': 16
     },
     'id': 1
   },
   {
     'city': {
-      'name': 'Cologne',
+      'name': 'Amsterdam',
       'location': {
-        'latitude': 50.938361,
-        'longitude': 6.959974,
+        'latitude': 52.37454,
+        'longitude': 4.897976,
         'zoom': 13
-      }
+      },
     },
     'previewImage': 'https://12.react.pages.academy/static/hotel/14.jpg',
     'images': [
@@ -109,20 +111,20 @@ export const offers: Offers = [
     },
     'description': 'I am happy to welcome you to my apartment in the city center! Three words: location, cosy and chic!',
     'location': {
-      'latitude': 50.947361,
-      'longitude': 6.9799739999999995,
+      'latitude': 52.3609553943508,
+      'longitude': 4.85309666406198,
       'zoom': 16
     },
     'id': 2
   },
   {
     'city': {
-      'name': 'Cologne',
+      'name': 'Amsterdam',
       'location': {
-        'latitude': 50.938361,
-        'longitude': 6.959974,
+        'latitude': 52.37454,
+        'longitude': 4.897976,
         'zoom': 13
-      }
+      },
     },
     'previewImage': 'https://12.react.pages.academy/static/hotel/13.jpg',
     'images': [
@@ -163,20 +165,20 @@ export const offers: Offers = [
     },
     'description': 'A new spacious villa, one floor. All commodities, jacuzzi and beautiful scenery. Ideal for families or friends.',
     'location': {
-      'latitude': 50.957361,
-      'longitude': 6.9509739999999995,
+      'latitude': 52.3909553943508,
+      'longitude': 4.929309666406198,
       'zoom': 16
     },
     'id': 3
   },
   {
     'city': {
-      'name': 'Brussels',
+      'name': 'Amsterdam',
       'location': {
-        'latitude': 50.846557,
-        'longitude': 4.351697,
+        'latitude': 52.37454,
+        'longitude': 4.897976,
         'zoom': 13
-      }
+      },
     },
     'previewImage': 'https://12.react.pages.academy/static/hotel/17.jpg',
     'images': [
@@ -224,8 +226,8 @@ export const offers: Offers = [
     },
     'description': 'A new spacious villa, one floor. All commodities, jacuzzi and beautiful scenery. Ideal for families or friends.',
     'location': {
-      'latitude': 50.865556999999995,
-      'longitude': 4.371696999999999,
+      'latitude': 52.3809553943508,
+      'longitude': 4.939309666406198,
       'zoom': 16
     },
     'id': 4
