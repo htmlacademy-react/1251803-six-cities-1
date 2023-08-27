@@ -1,7 +1,5 @@
 import {Offers} from '../types/offer';
 
-// TODO: Вопрос про зависимости
-
 export const offers: Offers = [
   {
     'city': {

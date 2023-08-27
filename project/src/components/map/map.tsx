@@ -7,7 +7,7 @@ import useMap from '../../hooks/useMap';
 
 type MapProps = {
   offers: Offers;
-  selectedPoint: Offer | undefined;
+  selectedPoint?: Offer | undefined;
 };
 
 const defaultCustomIcon = new Icon({
@@ -49,7 +49,7 @@ function Map({offers, selectedPoint}: MapProps) {
   return (
     <section
       className="cities__map map"
-      style={{height: '100vh'}}
+      style={{height: '100%'}}
       ref={mapRef}
     >
     </section>
