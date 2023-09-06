@@ -1,9 +1,10 @@
-import { Icon, Marker } from 'leaflet';
+import { Icon, Marker, layerGroup } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { Offers, Offer } from '../../types/offer';
 import { useRef, useEffect } from 'react';
 import {URL_MARKER_DEFAULT, URL_MARKER_CURRENT} from '../../const';
 import useMap from '../../hooks/useMap';
+// import { useAppSelector } from '../../hooks';
 
 type MapProps = {
   offers: Offers;
@@ -30,6 +31,9 @@ function Map({offers, selectedPoint}: MapProps) {
 
   useEffect(() => {
     if (map) {
+      const placeLayer = layerGroup().addTo(map);
+      const currentCity = city;
+      map.setView([currentCity.location.latitude, currentCity.location.longitude], currentCity.location.zoom);
       offers.forEach((offer) => {
         const marker = new Marker({
           lat: offer.location.latitude,
@@ -41,10 +45,14 @@ function Map({offers, selectedPoint}: MapProps) {
             selectedPoint !== undefined && offer.id === selectedPoint.id
               ? currentCustomIcon
               : defaultCustomIcon)
-          .addTo(map);
+          .addTo(placeLayer);
       });
+
+      return () => {
+        map.removeLayer(placeLayer);
+      };
     }
-  }, [map, offers, selectedPoint]);
+  }, [map, offers, selectedPoint, city]);
 
   return (
     <section

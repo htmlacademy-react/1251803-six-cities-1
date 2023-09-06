@@ -1,3 +1,5 @@
+import { CitiesNames } from './types/cities';
+
 export enum AppRoute {
   Root = '/',
   Login = '/login',
@@ -17,6 +19,15 @@ export enum Pages {
   Main = 'cities',
   Favorites = 'favorites'
 }
+
+export const Cities: CitiesNames = [
+  'Paris',
+  'Cologne',
+  'Brussels',
+  'Amsterdam',
+  'Hamburg',
+  'Dusseldorf'
+];
 
 export const URL_MARKER_DEFAULT = '/img/pin.svg';
 
