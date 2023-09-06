@@ -17,10 +17,9 @@ function CitiesList ({cities}: CitiesListProps): JSX.Element {
           dispatch(changeCity(city));
         };
 
-        const keyValue = city;
         const isActive = (city === activeCity) ? 'tabs__item--active' : '';
         return (
-          <li key={keyValue} className="locations__item">
+          <li key={city} className="locations__item">
             <a
               className={`locations__item-link tabs__item ${isActive}`}
               href="#a"
