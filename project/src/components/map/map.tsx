@@ -4,6 +4,7 @@ import { Offers, Offer } from '../../types/offer';
 import { useRef, useEffect } from 'react';
 import {URL_MARKER_DEFAULT, URL_MARKER_CURRENT} from '../../const';
 import useMap from '../../hooks/useMap';
+// import { useAppSelector } from '../../hooks';
 
 type MapProps = {
   offers: Offers;
