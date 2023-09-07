@@ -22,7 +22,7 @@ function CitiesList ({cities}: CitiesListProps): JSX.Element {
           <li key={city} className="locations__item">
             <a
               className={`locations__item-link tabs__item ${isActive}`}
-              href="#a"
+              href={`#${city}`}
               onClick={onClickHandle}
             >
               <span>{city}</span>
