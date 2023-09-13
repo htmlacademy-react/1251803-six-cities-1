@@ -15,6 +15,9 @@ function MainScreen (): JSX.Element {
   const [selectedPoint, setSelectedPoint] = useState<Offer | undefined>(undefined);
   const [selectedSortOption, setSelectedSortOption] = useState<string>('Popular');
 
+  const city = useAppSelector((state) => state.city);
+  const offers = useAppSelector((state) => state.offers);
+
   const onListItemHover = (listItemId: number) => {
     const currentPoint = offers.find((offer) => offer.id === listItemId);
 
@@ -24,9 +27,6 @@ function MainScreen (): JSX.Element {
   const cangeSortOptionHandle = (option: string) => {
     setSelectedSortOption(option);
   };
-
-  const city = useAppSelector((state) => state.city);
-  const offers = useAppSelector((state) => state.offers);
 
   const offersByCity = offers.filter((offer) => offer.city.name === city);
 

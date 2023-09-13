@@ -1,12 +1,9 @@
 import {AxiosInstance} from 'axios';
 import {createAsyncThunk} from '@reduxjs/toolkit';
-import {AppDispatch, State} from '../types/state.js';
-import { Offers } from '../types/offer.js';
+import {AppDispatch, State} from '../types/state';
+import { Offers } from '../types/offer';
 import {APIRoute} from '../const';
-// import { fillingOffersList } from './action.js';
-import {createAction} from '@reduxjs/toolkit';
-
-export const fillingOffersList = createAction('fillingOffersList', (offers: Offers) => ({payload: offers,}));
+import { fillingOffersList, setOffersDataLoadingStatus } from './action';
 
 export const fetchOffersAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
@@ -15,7 +12,9 @@ export const fetchOffersAction = createAsyncThunk<void, undefined, {
 }>(
   'data/fetchOffers',
   async (_arg, {dispatch, extra: api}) => {
+    dispatch(setOffersDataLoadingStatus(true));
     const {data} = await api.get<Offers>(APIRoute.Offers);
+    dispatch(setOffersDataLoadingStatus(false));
     dispatch(fillingOffersList(data));
   },
 );
