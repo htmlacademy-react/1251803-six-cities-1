@@ -8,13 +8,19 @@ import OfferScreen from '../../pages/offer-screen/offer-screen';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import ScrollToTop from '../scroll-to-top/scroll-to-top';
 import PrivateRoute from '../private-route/private-route';
-import { Offers } from '../../types/offer';
+import { useAppSelector } from '../../hooks';
+import LoadingScreen from '../../pages/loading-screen/loading-screen';
 
-type AppScreenProps = {
-  offers: Offers;
-}
+function App(): JSX.Element {
+  const offers = useAppSelector((state) => state.offers);
+  const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
 
-function App({offers}: AppScreenProps): JSX.Element {
+  if (isOffersDataLoading) {
+    return (
+      <LoadingScreen />
+    );
+  }
+
   return (
     <HelmetProvider>
       <BrowserRouter>
