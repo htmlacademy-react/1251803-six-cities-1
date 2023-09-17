@@ -13,9 +13,10 @@ import LoadingScreen from '../../pages/loading-screen/loading-screen';
 
 function App(): JSX.Element {
   const offers = useAppSelector((state) => state.offers);
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
 
-  if (isOffersDataLoading) {
+  if (authorizationStatus === AuthorizationStatus.Unknown || isOffersDataLoading) {
     return (
       <LoadingScreen />
     );
@@ -33,14 +34,12 @@ function App(): JSX.Element {
             />
             <Route
               path={AppRoute.Login}
-              element={<LoginScreen />}
+              element={(authorizationStatus === AuthorizationStatus.Auth) ? <MainScreen /> : <LoginScreen />}
             />
             <Route
               path={AppRoute.Favorites}
               element={
-                <PrivateRoute
-                  authorizationStatus={AuthorizationStatus.Auth}
-                >
+                <PrivateRoute>
                   <FavoritesScreen offers={offers} />
                 </PrivateRoute>
               }
