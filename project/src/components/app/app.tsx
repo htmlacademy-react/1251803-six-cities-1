@@ -48,7 +48,7 @@ function App(): JSX.Element {
             />
             <Route
               path={`${AppRoute.Room}/:id`}
-              element={<OfferScreen offers={offers} />}
+              element={<OfferScreen/>}
             />
           </Route>
           <Route

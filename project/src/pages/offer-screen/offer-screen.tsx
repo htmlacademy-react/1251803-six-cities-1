@@ -1,29 +1,40 @@
-import Header from '../../components/header/header';
 import { Helmet } from 'react-helmet-async';
-import FeedbackForm from '../../components/feedback-form/feedback-form';
 import { useParams, Navigate } from 'react-router-dom';
-import { Offers } from '../../types/offer';
-import { AppRoute } from '../../const';
-import { reviews } from '../../mocks/reviews';
+
+import Header from '../../components/header/header';
+import FeedbackForm from '../../components/feedback-form/feedback-form';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import Map from '../../components/map/map';
-import { offersNearby } from '../../mocks/offers-nearby';
 import OffersList from '../../components/offers-list/offers-list';
-import { useState } from 'react';
+
+import { AppRoute } from '../../const';
+import { reviews } from '../../mocks/reviews';
+import { offersNearby } from '../../mocks/offers-nearby';
+import { useEffect, useState } from 'react';
 import { Offer } from '../../types/offer';
+import { fetchOfferAction } from '../../store/api-actions';
+import { useAppSelector, useAppDispatch } from '../../hooks';
+import LoadingScreen from '../loading-screen/loading-screen';
 
-type OfferScreenProps = {
-  offers: Offers;
-}
-
-function OfferScreen({offers}: OfferScreenProps): JSX.Element {
+function OfferScreen(): JSX.Element {
   const params = useParams();
-  const [selectedPoint, setSelectedPoint] = useState<Offer | undefined>(undefined);
+  const dispatch = useAppDispatch();
 
-  const currentOffer = offers.find((offer) => {
-    const id = String(offer.id);
-    return (id === params.id);
-  });
+  useEffect(() => {
+    if (params.id) {
+      dispatch(fetchOfferAction(params.id));
+    }
+  }, [params.id, dispatch]);
+
+  const [selectedPoint, setSelectedPoint] = useState<Offer | undefined>(undefined);
+  const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
+  const currentOffer = useAppSelector((state) => state.currentOffer);
+
+  if (isOffersDataLoading || !currentOffer) {
+    return (
+      <LoadingScreen />
+    );
+  }
 
   if (!currentOffer) {
     return <Navigate to={AppRoute.NotFoundPage} />;

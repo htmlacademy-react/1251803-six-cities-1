@@ -1,9 +1,9 @@
 import {AxiosInstance} from 'axios';
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {AppDispatch, State} from '../types/state';
-import { Offers } from '../types/offer';
+import { Offers, Offer } from '../types/offer';
 import {APIRoute, AuthorizationStatus, AppRoute} from '../const';
-import { fillingOffersList, setOffersDataLoadingStatus, requireAuthorization, redirectToRoute } from './action';
+import { fillingOffersList, setOffersDataLoadingStatus, setOfferDataLoadingStatus, requireAuthorization, redirectToRoute, setCurrentOffer } from './action';
 import { AuthData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
 import {saveToken, dropToken} from '../services/token';
@@ -17,8 +17,22 @@ export const fetchOffersAction = createAsyncThunk<void, undefined, {
   async (_arg, {dispatch, extra: api}) => {
     dispatch(setOffersDataLoadingStatus(true));
     const {data} = await api.get<Offers>(APIRoute.Offers);
-    dispatch(setOffersDataLoadingStatus(false));
     dispatch(fillingOffersList(data));
+    dispatch(setOffersDataLoadingStatus(false));
+  },
+);
+
+export const fetchOfferAction = createAsyncThunk<void, string, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/fetchOffer',
+  async (hotelId, {dispatch, extra: api}) => {
+    dispatch(setOfferDataLoadingStatus(true));
+    const {data} = await api.get<Offer>(`${APIRoute.Offers}/${hotelId}`);
+    dispatch(setCurrentOffer(data));
+    dispatch(setOfferDataLoadingStatus(false));
   },
 );
 
