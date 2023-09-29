@@ -7,12 +7,16 @@ import ReviewsList from '../../components/reviews-list/reviews-list';
 import Map from '../../components/map/map';
 import OffersList from '../../components/offers-list/offers-list';
 
-import { AppRoute } from '../../const';
-import { reviews } from '../../mocks/reviews';
-import { offersNearby } from '../../mocks/offers-nearby';
+import {
+  AppRoute,
+  AuthorizationStatus } from '../../const';
 import { useEffect, useState } from 'react';
 import { Offer } from '../../types/offer';
-import { fetchOfferAction } from '../../store/api-actions';
+import {
+  fetchNearbyOffersAction,
+  fetchOfferAction,
+  fetchReviewsAction
+} from '../../store/api-actions';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import LoadingScreen from '../loading-screen/loading-screen';
 
@@ -23,14 +27,22 @@ function OfferScreen(): JSX.Element {
   useEffect(() => {
     if (params.id) {
       dispatch(fetchOfferAction(params.id));
+      dispatch(fetchNearbyOffersAction(params.id));
+      dispatch(fetchReviewsAction(params.id));
     }
   }, [params.id, dispatch]);
 
   const [selectedPoint, setSelectedPoint] = useState<Offer | undefined>(undefined);
-  const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
-  const currentOffer = useAppSelector((state) => state.currentOffer);
 
-  if (isOffersDataLoading || !currentOffer) {
+  const isOfferDataLoading = useAppSelector((state) => state.isOfferDataLoading);
+  const isNearbyOffersDataLoading = useAppSelector((state) => state.isNearbyOffersDataLoading);
+  const isReviewsDataLoading = useAppSelector((state) => state.isReviewsDataLoading);
+  const currentOffer = useAppSelector((state) => state.currentOffer);
+  const offersNearby = useAppSelector((state) => state.nearbyOffers);
+  const reviews = useAppSelector((state) => state.reviews);
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+
+  if (isOfferDataLoading || isNearbyOffersDataLoading || isReviewsDataLoading) {
     return (
       <LoadingScreen />
     );
@@ -151,7 +163,7 @@ function OfferScreen(): JSX.Element {
                 <ReviewsList
                   reviews={reviews}
                 />
-                <FeedbackForm />
+                {(authorizationStatus === AuthorizationStatus.Auth && params.id) ? <FeedbackForm offerId={params.id} /> : null}
               </section>
             </div>
           </div>

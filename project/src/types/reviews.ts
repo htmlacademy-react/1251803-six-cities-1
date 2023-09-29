@@ -13,4 +13,9 @@ export type Review = {
   date: string;
 }
 
+export type sendingReview = {
+  rating: number;
+  comment: string;
+}
+
 export type Reviews = Review[];

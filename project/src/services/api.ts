@@ -32,8 +32,6 @@ export const createAPI = (): AxiosInstance => {
     },
   );
 
-  // TODO: error.response && shouldDisplayError(error.response) разве не одно и тоже?
-
   api.interceptors.response.use(
     (response) => response,
     (error: AxiosError<{error: string}>) => {

@@ -40,6 +40,7 @@ export enum APIRoute {
   Offers = '/hotels',
   Login = '/login',
   Logout = '/logout',
+  Reviews = '/comments',
 }
 
 export const URL_MARKER_DEFAULT = '/img/pin.svg';
