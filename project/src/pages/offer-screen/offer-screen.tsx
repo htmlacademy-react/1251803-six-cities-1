@@ -1,29 +1,52 @@
-import Header from '../../components/header/header';
 import { Helmet } from 'react-helmet-async';
-import FeedbackForm from '../../components/feedback-form/feedback-form';
 import { useParams, Navigate } from 'react-router-dom';
-import { Offers } from '../../types/offer';
-import { AppRoute } from '../../const';
-import { reviews } from '../../mocks/reviews';
+
+import Header from '../../components/header/header';
+import FeedbackForm from '../../components/feedback-form/feedback-form';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import Map from '../../components/map/map';
-import { offersNearby } from '../../mocks/offers-nearby';
 import OffersList from '../../components/offers-list/offers-list';
-import { useState } from 'react';
+
+import {
+  AppRoute,
+  AuthorizationStatus } from '../../const';
+import { useEffect, useState } from 'react';
 import { Offer } from '../../types/offer';
+import {
+  fetchNearbyOffersAction,
+  fetchOfferAction,
+  fetchReviewsAction
+} from '../../store/api-actions';
+import { useAppSelector, useAppDispatch } from '../../hooks';
+import LoadingScreen from '../loading-screen/loading-screen';
 
-type OfferScreenProps = {
-  offers: Offers;
-}
-
-function OfferScreen({offers}: OfferScreenProps): JSX.Element {
+function OfferScreen(): JSX.Element {
   const params = useParams();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (params.id) {
+      dispatch(fetchOfferAction(params.id));
+      dispatch(fetchNearbyOffersAction(params.id));
+      dispatch(fetchReviewsAction(params.id));
+    }
+  }, [params.id, dispatch]);
+
   const [selectedPoint, setSelectedPoint] = useState<Offer | undefined>(undefined);
 
-  const currentOffer = offers.find((offer) => {
-    const id = String(offer.id);
-    return (id === params.id);
-  });
+  const isOfferDataLoading = useAppSelector((state) => state.isOfferDataLoading);
+  const isNearbyOffersDataLoading = useAppSelector((state) => state.isNearbyOffersDataLoading);
+  const isReviewsDataLoading = useAppSelector((state) => state.isReviewsDataLoading);
+  const currentOffer = useAppSelector((state) => state.currentOffer);
+  const offersNearby = useAppSelector((state) => state.nearbyOffers);
+  const reviews = useAppSelector((state) => state.reviews);
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+
+  if (isOfferDataLoading || isNearbyOffersDataLoading || isReviewsDataLoading) {
+    return (
+      <LoadingScreen />
+    );
+  }
 
   if (!currentOffer) {
     return <Navigate to={AppRoute.NotFoundPage} />;
@@ -140,7 +163,7 @@ function OfferScreen({offers}: OfferScreenProps): JSX.Element {
                 <ReviewsList
                   reviews={reviews}
                 />
-                <FeedbackForm />
+                {(authorizationStatus === AuthorizationStatus.Auth && params.id) ? <FeedbackForm offerId={params.id} /> : null}
               </section>
             </div>
           </div>
