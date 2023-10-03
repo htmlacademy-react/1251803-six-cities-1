@@ -19,6 +19,16 @@ import {
 } from '../../store/api-actions';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import LoadingScreen from '../loading-screen/loading-screen';
+import {
+  getCurrentOffer,
+  getCurrentOfferDataLoadingStatus,
+  getNearbyOffers,
+  getNearbyOffersDataLoadingStatus,
+  getReviews,
+  getReviewsDataLoadingStatus,
+  // getErrorStatus,
+} from '../../store/offers-data/offers-data-selector';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 
 function OfferScreen(): JSX.Element {
   const params = useParams();
@@ -34,13 +44,14 @@ function OfferScreen(): JSX.Element {
 
   const [selectedPoint, setSelectedPoint] = useState<Offer | undefined>(undefined);
 
-  const isOfferDataLoading = useAppSelector((state) => state.isOfferDataLoading);
-  const isNearbyOffersDataLoading = useAppSelector((state) => state.isNearbyOffersDataLoading);
-  const isReviewsDataLoading = useAppSelector((state) => state.isReviewsDataLoading);
-  const currentOffer = useAppSelector((state) => state.currentOffer);
-  const offersNearby = useAppSelector((state) => state.nearbyOffers);
-  const reviews = useAppSelector((state) => state.reviews);
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const isOfferDataLoading = useAppSelector(getCurrentOfferDataLoadingStatus);
+  const isNearbyOffersDataLoading = useAppSelector(getNearbyOffersDataLoadingStatus);
+  const isReviewsDataLoading = useAppSelector(getReviewsDataLoadingStatus);
+  const currentOffer = useAppSelector(getCurrentOffer);
+  const offersNearby = useAppSelector(getNearbyOffers);
+  const reviews = useAppSelector(getReviews);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  // const hasError = useAppSelector(getErrorStatus);
 
   if (isOfferDataLoading || isNearbyOffersDataLoading || isReviewsDataLoading) {
     return (

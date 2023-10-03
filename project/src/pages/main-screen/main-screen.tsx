@@ -8,6 +8,8 @@ import {useAppSelector} from '../../hooks';
 import CitiesList from '../../components/cities-list/cities-list';
 import { Cities } from '../../const';
 import SortOptionsMenu from '../../components/sort-options-menu/sort-options-menu';
+import { getCity } from '../../store/cties-process/cities-process-selector';
+import { getOffers } from '../../store/offers-data/offers-data-selector';
 
 // TODO Как сдеалть скролл наверх при переключении города
 
@@ -15,8 +17,8 @@ function MainScreen (): JSX.Element {
   const [selectedPoint, setSelectedPoint] = useState<Offer | undefined>(undefined);
   const [selectedSortOption, setSelectedSortOption] = useState<string>('Popular');
 
-  const city = useAppSelector((state) => state.city);
-  const offers = useAppSelector((state) => state.offers);
+  const city = useAppSelector(getCity);
+  const offers = useAppSelector(getOffers);
 
   const onListItemHover = (listItemId: number) => {
     const currentPoint = offers.find((offer) => offer.id === listItemId);

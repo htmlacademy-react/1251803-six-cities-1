@@ -1,6 +1,8 @@
 import { CitiesNames } from '../../types/cities';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { changeCity } from '../../store/action';
+// import { changeCity } from '../../store/action';
+import { getCity } from '../../store/cties-process/cities-process-selector';
+import { changeCity } from '../../store/cties-process/cities-process';
 
 type CitiesListProps = {
   cities: CitiesNames;
@@ -8,7 +10,7 @@ type CitiesListProps = {
 
 function CitiesList ({cities}: CitiesListProps): JSX.Element {
   const dispatch = useAppDispatch();
-  const activeCity = useAppSelector((state) => state.city);
+  const activeCity = useAppSelector(getCity);
 
   return (
     <ul className="locations__list tabs__list">
