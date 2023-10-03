@@ -24,27 +24,33 @@ const initialState: OffersData = {
 export const offersData = createSlice({
   name: NameSpace.Data,
   initialState,
-  reducers: {},
+  reducers: {
+    resetErrorStatus: (state) => {
+      state.hasError = false;
+    },
+  },
   extraReducers(builder) {
     builder
       .addCase(fetchOffersAction.pending, (state) => {
         state.isOffersDataLoading = true;
-        state.hasError = false;
       })
       .addCase(fetchOffersAction.fulfilled, (state, action) => {
         state.offers = action.payload;
         state.isOffersDataLoading = false;
       })
-      .addCase(fetchOffersAction.rejected, (state) => {
-        state.isOffersDataLoading = false;
-        state.hasError = true;
-      })
       .addCase(fetchOfferAction.pending, (state) => {
         state.isOfferDataLoading = true;
+        state.hasError = false;
       })
       .addCase(fetchOfferAction.fulfilled, (state, action) => {
         state.currentOffer = action.payload;
         state.isOfferDataLoading = false;
+      })
+      .addCase(fetchOfferAction.rejected, (state) => {
+        state.isReviewsDataLoading = false;
+        state.isNearbyOffersDataLoading = false;
+        state.isOfferDataLoading = false;
+        state.hasError = true;
       })
       .addCase(fetchReviewsAction.pending, (state) => {
         state.isReviewsDataLoading = true;
@@ -65,3 +71,5 @@ export const offersData = createSlice({
       });
   }
 });
+
+export const {resetErrorStatus} = offersData.actions;

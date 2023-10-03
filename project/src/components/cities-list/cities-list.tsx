@@ -1,6 +1,5 @@
 import { CitiesNames } from '../../types/cities';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-// import { changeCity } from '../../store/action';
 import { getCity } from '../../store/cties-process/cities-process-selector';
 import { changeCity } from '../../store/cties-process/cities-process';
 

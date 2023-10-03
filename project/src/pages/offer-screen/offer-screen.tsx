@@ -26,7 +26,7 @@ import {
   getNearbyOffersDataLoadingStatus,
   getReviews,
   getReviewsDataLoadingStatus,
-  // getErrorStatus,
+  getErrorStatus,
 } from '../../store/offers-data/offers-data-selector';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
 
@@ -51,7 +51,7 @@ function OfferScreen(): JSX.Element {
   const offersNearby = useAppSelector(getNearbyOffers);
   const reviews = useAppSelector(getReviews);
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
-  // const hasError = useAppSelector(getErrorStatus);
+  const hasError = useAppSelector(getErrorStatus);
 
   if (isOfferDataLoading || isNearbyOffersDataLoading || isReviewsDataLoading) {
     return (
@@ -59,8 +59,14 @@ function OfferScreen(): JSX.Element {
     );
   }
 
-  if (!currentOffer) {
+  if (hasError) {
     return <Navigate to={AppRoute.NotFoundPage} />;
+  }
+
+  if (!currentOffer) {
+    return (
+      <LoadingScreen />
+    );
   }
 
   const onListItemHover = (listItemId: number) => {
