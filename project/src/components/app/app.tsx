@@ -1,5 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
-import { AppRoute, AuthorizationStatus } from '../../const';
+import { AppRoute } from '../../const';
 import { HelmetProvider } from 'react-helmet-async';
 import MainScreen from '../../pages/main-screen/main-screen';
 import LoginScreen from '../../pages/login-screen/login-screen';
@@ -12,16 +12,19 @@ import { useAppSelector } from '../../hooks';
 import LoadingScreen from '../../pages/loading-screen/loading-screen';
 import HistoryRouter from '../history-router/history-router';
 import browserHistory from '../../browser-history';
+import { getAuthCheckedStatus } from '../../store/user-process/selectors';
+import {
+  getOffers,
+  getOffersDataLoadingStatus,
+} from '../../store/offers-data/offers-data-selector';
 
 function App(): JSX.Element {
-  const offers = useAppSelector((state) => state.offers);
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
+  const offers = useAppSelector(getOffers);
+  const isAuthChecked = useAppSelector(getAuthCheckedStatus);
+  const isOffersDataLoading = useAppSelector(getOffersDataLoadingStatus);
 
-  if (authorizationStatus === AuthorizationStatus.Unknown || isOffersDataLoading) {
-    return (
-      <LoadingScreen />
-    );
+  if (!isAuthChecked || isOffersDataLoading) {
+    return <LoadingScreen />;
   }
 
   return (
@@ -30,14 +33,8 @@ function App(): JSX.Element {
         <ScrollToTop />
         <Routes>
           <Route path={AppRoute.Root}>
-            <Route
-              index
-              element={<MainScreen />}
-            />
-            <Route
-              path={AppRoute.Login}
-              element={<LoginScreen />}
-            />
+            <Route index element={<MainScreen />} />
+            <Route path={AppRoute.Login} element={<LoginScreen />} />
             <Route
               path={AppRoute.Favorites}
               element={
@@ -46,19 +43,10 @@ function App(): JSX.Element {
                 </PrivateRoute>
               }
             />
-            <Route
-              path={`${AppRoute.Room}/:id`}
-              element={<OfferScreen/>}
-            />
+            <Route path={`${AppRoute.Room}/:id`} element={<OfferScreen />} />
           </Route>
-          <Route
-            path={AppRoute.NotFoundPage}
-            element={<NotFoundScreen />}
-          />
-          <Route
-            path={AppRoute.NotFound}
-            element={<NotFoundScreen />}
-          />
+          <Route path={AppRoute.NotFoundPage} element={<NotFoundScreen />} />
+          <Route path={AppRoute.NotFound} element={<NotFoundScreen />} />
         </Routes>
       </HistoryRouter>
     </HelmetProvider>
