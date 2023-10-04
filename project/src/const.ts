@@ -41,12 +41,14 @@ export enum APIRoute {
   Login = '/login',
   Logout = '/logout',
   Reviews = '/comments',
+  Favorite = '/favorite',
 }
 
 export enum NameSpace {
   Data = 'DATA',
   User = 'USER',
   City = 'CITY',
+  Favorite = 'FAVORITE',
 }
 
 export const URL_MARKER_DEFAULT = '/img/pin.svg';

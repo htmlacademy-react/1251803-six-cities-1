@@ -16,6 +16,11 @@ export type OffersData = {
   hasError: boolean;
 };
 
+export type FavoriteData = {
+  favoriteOffers: Offers;
+  isFavoriteOffersLoading: boolean;
+};
+
 export type CitiesProcess = {
   city: CityName;
 };

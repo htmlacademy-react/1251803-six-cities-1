@@ -11,6 +11,31 @@ import { AuthData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
 import { Reviews } from '../types/reviews';
 import { SendComment } from '../types/send-comment';
+import { FavoriteStatusType } from '../types/favorite-status-type';
+
+export const fetchFavoriteOffersAction = createAsyncThunk<Offers, undefined, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'favorite/fetchFavoriteOffers',
+  async (_arg, {dispatch, extra: api}) => {
+    const {data} = await api.get<Offers>(APIRoute.Favorite);
+    return data;
+  },
+);
+
+export const changeFavoriteStatus = createAsyncThunk<Offer, FavoriteStatusType, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'favorite/changeFavoriteStatus',
+  async ({hotelId, status}, {dispatch, extra: api}) => {
+    const {data} = await api.post<Offer>(`${APIRoute.Favorite}/${hotelId}/${status}`);
+    return data;
+  },
+);
 
 export const fetchOffersAction = createAsyncThunk<Offers, undefined, {
   dispatch: AppDispatch;
