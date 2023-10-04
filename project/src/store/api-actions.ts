@@ -1,14 +1,14 @@
-import {AxiosInstance} from 'axios';
-import {createAsyncThunk} from '@reduxjs/toolkit';
-import {AppDispatch, State} from '../types/state';
+import { AxiosInstance } from 'axios';
+import { createAsyncThunk } from '@reduxjs/toolkit';
+
+import { APIRoute, AppRoute } from '../const';
+import { redirectToRoute } from './action';
+import { saveToken, dropToken } from '../services/token';
+
+import { AppDispatch, State } from '../types/state';
 import { Offers, Offer } from '../types/offer';
-import {APIRoute, AppRoute} from '../const';
-import {
-  redirectToRoute,
-} from './action';
 import { AuthData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
-import {saveToken, dropToken} from '../services/token';
 import { Reviews } from '../types/reviews';
 import { SendComment } from '../types/send-comment';
 

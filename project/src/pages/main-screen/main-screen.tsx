@@ -10,6 +10,7 @@ import { Cities } from '../../const';
 import SortOptionsMenu from '../../components/sort-options-menu/sort-options-menu';
 import { getCity } from '../../store/cties-process/cities-process-selector';
 import { getOffers } from '../../store/offers-data/offers-data-selector';
+import MainEmpty from '../../components/main-empty/main-empty';
 
 // TODO Как сдеалть скролл наверх при переключении города
 
@@ -49,13 +50,16 @@ function MainScreen (): JSX.Element {
 
   const sortOffers = sortingOffers(selectedSortOption, offersByCity);
 
+  const isEmpty = offers.toString() === [].toString();
+  const emptyPageClass = isEmpty ? 'page__main--index-empty' : '';
+
   return (
     <div className="page page--gray page--main">
       <Helmet>
         <title>6 cities</title>
       </Helmet>
       <Header />
-      <main className="page__main page__main--index">
+      <main className={`${emptyPageClass} page__main page__main--index`}>
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <section className="locations container">
@@ -63,26 +67,30 @@ function MainScreen (): JSX.Element {
           </section>
         </div>
         <div className="cities">
-          <div className="cities__places-container container">
-            <section className="cities__places places">
-              <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{offersByCity.length} places to stay in Amsterdam</b>
-              <SortOptionsMenu
-                currentSortOption={selectedSortOption}
-                onCangeSortOption={cangeSortOptionHandle}
-              />
-              <OffersList
-                offersData={sortOffers}
-                onListItemHover={onListItemHover}
-              />
-            </section>
-            <div className="cities__right-section">
-              <Map
-                offers={offersByCity}
-                selectedPoint={selectedPoint}
-              />
-            </div>
-          </div>
+          {
+            (isEmpty) ?
+              <MainEmpty /> :
+              <div className="cities__places-container container">
+                <section className="cities__places places">
+                  <h2 className="visually-hidden">Places</h2>
+                  <b className="places__found">{offersByCity.length} places to stay in Amsterdam</b>
+                  <SortOptionsMenu
+                    currentSortOption={selectedSortOption}
+                    onCangeSortOption={cangeSortOptionHandle}
+                  />
+                  <OffersList
+                    offersData={sortOffers}
+                    onListItemHover={onListItemHover}
+                  />
+                </section>
+                <div className="cities__right-section">
+                  <Map
+                    offers={offersByCity}
+                    selectedPoint={selectedPoint}
+                  />
+                </div>
+              </div>
+          }
         </div>
       </main>
     </div>
