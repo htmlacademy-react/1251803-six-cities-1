@@ -1,13 +1,13 @@
 import { CitiesNames } from '../../types/cities';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { getCity } from '../../store/cties-process/cities-process-selector';
-import { changeCity } from '../../store/cties-process/cities-process';
+import { getCity } from '../../store/cities-process/cities-process-selector';
+import { changeCity } from '../../store/cities-process/cities-process';
 
 type CitiesListProps = {
   cities: CitiesNames;
 };
 
-function CitiesList ({cities}: CitiesListProps): JSX.Element {
+function CitiesList({ cities }: CitiesListProps): JSX.Element {
   const dispatch = useAppDispatch();
   const activeCity = useAppSelector(getCity);
 
@@ -18,7 +18,7 @@ function CitiesList ({cities}: CitiesListProps): JSX.Element {
           dispatch(changeCity(city));
         };
 
-        const isActive = (city === activeCity) ? 'tabs__item--active' : '';
+        const isActive = city === activeCity ? 'tabs__item--active' : '';
         return (
           <li key={city} className="locations__item">
             <a

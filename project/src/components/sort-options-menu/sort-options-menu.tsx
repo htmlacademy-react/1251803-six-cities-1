@@ -4,10 +4,10 @@ import { SortOptions } from '../../const';
 
 type SortOptionsMenuProps = {
   currentSortOption: string;
-  onCangeSortOption: (option: string) => void;
+  onChangeSortOption: (option: string) => void;
 };
 
-function SortOptionsMenu ({currentSortOption, onCangeSortOption}: SortOptionsMenuProps): JSX.Element {
+function SortOptionsMenu ({currentSortOption, onChangeSortOption}: SortOptionsMenuProps): JSX.Element {
   const [isOpened, setIsOpened] = useState<boolean>(false);
   const optionsListRef = useRef(null);
   const sortingBtnRef = useRef(null);
@@ -21,7 +21,7 @@ function SortOptionsMenu ({currentSortOption, onCangeSortOption}: SortOptionsMen
   useOutsideClick(optionsListRef, sortingBtnRef, onOutSideClickHandle);
 
   const onSortOptionClickHandle = (option: string) => {
-    onCangeSortOption(option);
+    onChangeSortOption(option);
     setIsOpened(false);
   };
 
