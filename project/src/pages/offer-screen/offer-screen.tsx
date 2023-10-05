@@ -6,13 +6,15 @@ import FeedbackForm from '../../components/feedback-form/feedback-form';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import Map from '../../components/map/map';
 import OffersList from '../../components/offers-list/offers-list';
+import { FavoriteStatusType } from '../../types/favorite-status-type';
 
 import {
   AppRoute,
   AuthorizationStatus } from '../../const';
-import { useEffect, useState } from 'react';
+import { MouseEvent, useEffect, useState } from 'react';
 import { Offer } from '../../types/offer';
 import {
+  changeFavoriteStatus,
   fetchNearbyOffersAction,
   fetchOfferAction,
   fetchReviewsAction
@@ -29,6 +31,7 @@ import {
   getErrorStatus,
 } from '../../store/offers-data/offers-data-selector';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
+import { redirectToRoute } from '../../store/action';
 
 function OfferScreen(): JSX.Element {
   const params = useParams();
@@ -77,6 +80,25 @@ function OfferScreen(): JSX.Element {
 
   const isFavorite = currentOffer.isFavorite ? 'property__bookmark-button--active' : '';
 
+  const onAuthStatusClick = (pathParams: FavoriteStatusType) => {
+    dispatch(changeFavoriteStatus(pathParams));
+  };
+
+  const favoriteStatus = !currentOffer.isFavorite ? 1 : 0;
+
+  const onBookmarkClickHandler = (evt: MouseEvent<HTMLButtonElement>) => {
+    evt.preventDefault();
+
+    if (authorizationStatus === AuthorizationStatus.Auth) {
+      onAuthStatusClick({
+        hotelId: currentOffer.id,
+        status: favoriteStatus,
+      });
+    } else {
+      dispatch(redirectToRoute(AppRoute.Login));
+    }
+  };
+
   return (
     <div className="page">
       <Helmet>
@@ -112,7 +134,11 @@ function OfferScreen(): JSX.Element {
                 <h1 className="property__name">
                   {currentOffer.title}
                 </h1>
-                <button className={`${isFavorite} property__bookmark-button button`} type="button">
+                <button
+                  className={`${isFavorite} property__bookmark-button button`}
+                  type="button"
+                  onClick={onBookmarkClickHandler}
+                >
                   <svg className="property__bookmark-icon" width={31} height={33}>
                     <use xlinkHref="#icon-bookmark" />
                   </svg>

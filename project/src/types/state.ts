@@ -3,6 +3,7 @@ import {AuthorizationStatus} from '../const';
 import { Offers, Offer } from './offer';
 import { Reviews } from './reviews';
 import { CityName } from './cities';
+import { UserData } from './user-data';
 
 export type OffersData = {
   offers: Offers;
@@ -27,6 +28,7 @@ export type CitiesProcess = {
 
 export type UserProcess = {
   authorizationStatus: AuthorizationStatus;
+  userData: UserData | null;
 };
 
 export type State = ReturnType<typeof store.getState>;

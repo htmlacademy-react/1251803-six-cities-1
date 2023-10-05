@@ -5,7 +5,6 @@ import {
   changeFavoriteStatus,
   fetchFavoriteOffersAction,
 } from '../api-actions';
-import { Offer } from '../../types/offer';
 
 const initialState: FavoriteData = {
   favoriteOffers: [],
@@ -26,14 +25,11 @@ export const favoriteData = createSlice({
         state.favoriteOffers = action.payload;
         state.isFavoriteOffersLoading = false;
       })
-      .addCase(changeFavoriteStatus.fulfilled, (state, action) => {
-        if (action.payload.isFavorite) {
-          if (!state.favoriteOffers.includes(action.payload)) {
-            state.favoriteOffers.push(action.payload);
-          }
-        } else {
-          state.favoriteOffers.filter((offer: Offer) => offer.id !== action.payload.id);
-        }
+      .addCase(changeFavoriteStatus.pending, (state) => {
+        state.isFavoriteOffersLoading = true;
+      })
+      .addCase(changeFavoriteStatus.fulfilled, (state) => {
+        state.isFavoriteOffersLoading = false;
       });
   }
 });

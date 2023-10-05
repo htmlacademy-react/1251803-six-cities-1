@@ -17,10 +17,9 @@ import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import LoadingScreen from '../../pages/loading-screen/loading-screen';
 
 import { getAuthCheckedStatus } from '../../store/user-process/selectors';
-import { getOffers, getOffersDataLoadingStatus } from '../../store/offers-data/offers-data-selector';
+import { getOffersDataLoadingStatus } from '../../store/offers-data/offers-data-selector';
 
 function App(): JSX.Element {
-  const offers = useAppSelector(getOffers);
   const isAuthChecked = useAppSelector(getAuthCheckedStatus);
   const isOffersDataLoading = useAppSelector(getOffersDataLoadingStatus);
 
@@ -40,7 +39,7 @@ function App(): JSX.Element {
               path={AppRoute.Favorites}
               element={
                 <PrivateRoute>
-                  <FavoritesScreen offers={offers} />
+                  <FavoritesScreen />
                 </PrivateRoute>
               }
             />

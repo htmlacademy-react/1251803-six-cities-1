@@ -33,6 +33,8 @@ export const changeFavoriteStatus = createAsyncThunk<Offer, FavoriteStatusType, 
   'favorite/changeFavoriteStatus',
   async ({hotelId, status}, {dispatch, extra: api}) => {
     const {data} = await api.post<Offer>(`${APIRoute.Favorite}/${hotelId}/${status}`);
+    dispatch(fetchOffersAction());
+    dispatch(fetchFavoriteOffersAction());
     return data;
   },
 );
@@ -108,16 +110,17 @@ export const checkAuthAction = createAsyncThunk<void, undefined, {
   },
 );
 
-export const loginAction = createAsyncThunk<void, AuthData, {
+export const loginAction = createAsyncThunk<UserData, AuthData, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
   'user/login',
   async ({login: email, password}, {dispatch, extra: api}) => {
-    const {data: {token}} = await api.post<UserData>(APIRoute.Login, {email, password});
-    saveToken(token);
+    const {data} = await api.post<UserData>(APIRoute.Login, {email, password});
+    saveToken(data.token);
     dispatch(redirectToRoute(AppRoute.Root));
+    return data;
   },
 );
 
