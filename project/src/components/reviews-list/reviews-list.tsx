@@ -6,9 +6,11 @@ type ReviewsListProps = {
 };
 
 function ReviewsList ({reviews}: ReviewsListProps): JSX.Element {
+  const tenLastReviews = [...reviews].reverse().slice(0, 10);
+
   return (
     <ul className="reviews__list">
-      {reviews.map((review) => {
+      {tenLastReviews.map((review) => {
         const currentReview = review;
         return (
           <ReviewItem

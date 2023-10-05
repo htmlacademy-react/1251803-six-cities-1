@@ -6,6 +6,7 @@ import {URL_MARKER_DEFAULT, URL_MARKER_CURRENT} from '../../const';
 import useMap from '../../hooks/useMap';
 
 type MapProps = {
+  currentOffer?: Offer;
   offers: Offers;
   selectedPoint?: Offer | undefined;
 };
@@ -22,7 +23,7 @@ const currentCustomIcon = new Icon({
   iconAnchor: [14, 39]
 });
 
-function Map({offers, selectedPoint}: MapProps) {
+function Map({offers, selectedPoint, currentOffer}: MapProps) {
   const mapRef = useRef(null);
 
   const city = offers[0].city;
@@ -33,6 +34,7 @@ function Map({offers, selectedPoint}: MapProps) {
       const placeLayer = layerGroup().addTo(map);
       const currentCity = city;
       map.setView([currentCity.location.latitude, currentCity.location.longitude], currentCity.location.zoom);
+
       offers.forEach((offer) => {
         const marker = new Marker({
           lat: offer.location.latitude,
@@ -46,6 +48,15 @@ function Map({offers, selectedPoint}: MapProps) {
               : defaultCustomIcon)
           .addTo(placeLayer);
       });
+
+      if (currentOffer) {
+        const currentMarker = new Marker({
+          lat: currentOffer.location.latitude,
+          lng: currentOffer.location.longitude
+        });
+
+        currentMarker.setIcon(currentCustomIcon).addTo(placeLayer);
+      }
 
       return () => {
         map.removeLayer(placeLayer);
