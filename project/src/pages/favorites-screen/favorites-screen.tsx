@@ -3,11 +3,19 @@ import { Helmet } from 'react-helmet-async';
 import FavoritesList from '../../components/favorites-list/favorites-list';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getFavoriteOffers } from '../../store/favorite-data/favorite-data-selector';
 import FavoriteEmpty from '../../components/favorite-empty/favorite-empty';
+import { useEffect } from 'react';
+import { fetchFavoriteOffersAction } from '../../store/api-actions';
 
 function FavoritesScreen(): JSX.Element {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchFavoriteOffersAction());
+  }, [dispatch]);
+
   const favoriteOffers = useAppSelector(getFavoriteOffers);
 
   const isEmpty = favoriteOffers.toString() === [].toString();

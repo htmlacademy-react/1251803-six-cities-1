@@ -59,8 +59,18 @@ export const offersData = createSlice({
         state.reviews = action.payload;
         state.isReviewsDataLoading = false;
       })
+      .addCase(fetchReviewsAction.rejected, (state) => {
+        state.isReviewsDataLoading = false;
+      })
+      .addCase(sendCommentAction.pending, (state) => {
+        state.isReviewsDataLoading = true;
+      })
       .addCase(sendCommentAction.fulfilled, (state, action) => {
         state.reviews = action.payload;
+        state.isReviewsDataLoading = false;
+      })
+      .addCase(sendCommentAction.rejected, (state) => {
+        state.isReviewsDataLoading = false;
       })
       .addCase(fetchNearbyOffersAction.pending, (state) => {
         state.isNearbyOffersDataLoading = true;
