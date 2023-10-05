@@ -1,16 +1,43 @@
-import {AxiosInstance} from 'axios';
-import {createAsyncThunk} from '@reduxjs/toolkit';
-import {AppDispatch, State} from '../types/state';
+import { AxiosInstance } from 'axios';
+import { createAsyncThunk } from '@reduxjs/toolkit';
+
+import { APIRoute, AppRoute } from '../const';
+import { redirectToRoute } from './action';
+import { saveToken, dropToken } from '../services/token';
+
+import { AppDispatch, State } from '../types/state';
 import { Offers, Offer } from '../types/offer';
-import {APIRoute, AppRoute} from '../const';
-import {
-  redirectToRoute,
-} from './action';
 import { AuthData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
-import {saveToken, dropToken} from '../services/token';
 import { Reviews } from '../types/reviews';
 import { SendComment } from '../types/send-comment';
+import { FavoriteStatusType } from '../types/favorite-status-type';
+
+export const fetchFavoriteOffersAction = createAsyncThunk<Offers, undefined, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'favorite/fetchFavoriteOffers',
+  async (_arg, {dispatch, extra: api}) => {
+    const {data} = await api.get<Offers>(APIRoute.Favorite);
+    return data;
+  },
+);
+
+export const changeFavoriteStatus = createAsyncThunk<Offer, FavoriteStatusType, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'favorite/changeFavoriteStatus',
+  async ({hotelId, status}, {dispatch, extra: api}) => {
+    const {data} = await api.post<Offer>(`${APIRoute.Favorite}/${hotelId}/${status}`);
+    dispatch(fetchOffersAction());
+    dispatch(fetchFavoriteOffersAction());
+    return data;
+  },
+);
 
 export const fetchOffersAction = createAsyncThunk<Offers, undefined, {
   dispatch: AppDispatch;
@@ -83,16 +110,17 @@ export const checkAuthAction = createAsyncThunk<void, undefined, {
   },
 );
 
-export const loginAction = createAsyncThunk<void, AuthData, {
+export const loginAction = createAsyncThunk<UserData, AuthData, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
   'user/login',
   async ({login: email, password}, {dispatch, extra: api}) => {
-    const {data: {token}} = await api.post<UserData>(APIRoute.Login, {email, password});
-    saveToken(token);
+    const {data} = await api.post<UserData>(APIRoute.Login, {email, password});
+    saveToken(data.token);
     dispatch(redirectToRoute(AppRoute.Root));
+    return data;
   },
 );
 

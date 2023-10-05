@@ -4,10 +4,13 @@ import { AppRoute, AuthorizationStatus } from '../../const';
 import { Link } from 'react-router-dom';
 import { logoutAction } from '../../store/api-actions';
 import { MouseEvent } from 'react';
-import { getAuthorizationStatus } from '../../store/user-process/selectors';
+import { getAuthorizationStatus, getUserData } from '../../store/user-process/selectors';
+import { getFavoriteOffers } from '../../store/favorite-data/favorite-data-selector';
 
 function Header(): JSX.Element {
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const favoriteOffers = useAppSelector(getFavoriteOffers);
+  const userData = useAppSelector(getUserData);
   const dispatch = useAppDispatch();
 
   const handleLogout = (evt: MouseEvent<HTMLAnchorElement>) => {
@@ -15,6 +18,8 @@ function Header(): JSX.Element {
 
     dispatch(logoutAction());
   };
+
+  const email = userData?.email ?? 'lazarev@gmail.com';
 
   return (
     <header className='header'>
@@ -34,9 +39,9 @@ function Header(): JSX.Element {
                     >
                       <div className='header__avatar-wrapper user__avatar-wrapper' />
                       <span className='header__user-name user__name'>
-                        Oliver.conner@gmail.com
+                        {email}
                       </span>
-                      <span className='header__favorite-count'>3</span>
+                      <span className='header__favorite-count'>{favoriteOffers.length}</span>
                     </Link>
                   </li>
                   <li className='header__nav-item'>

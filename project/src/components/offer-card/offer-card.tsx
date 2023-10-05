@@ -1,7 +1,13 @@
 import { Offer } from '../../types/offer';
 import { Pages } from '../../const';
 import { Link } from 'react-router-dom';
-import { AppRoute } from '../../const';
+import { MouseEvent } from 'react';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
+import { useAppSelector, useAppDispatch } from '../../hooks';
+import { AppRoute, AuthorizationStatus } from '../../const';
+import { redirectToRoute } from '../../store/action';
+import { changeFavoriteStatus } from '../../store/api-actions';
+import { FavoriteStatusType } from '../../types/favorite-status-type';
 
 type OfferCardProps = {
   offerData: Offer;
@@ -10,6 +16,9 @@ type OfferCardProps = {
 };
 
 function OfferCard ({offerData, page, onMouseOver}: OfferCardProps): JSX.Element {
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const dispatch = useAppDispatch();
+
   const isMark = offerData.isFavorite ? 'place-card__bookmark-button--active' : '';
   const handleMouseOver = () => {
     if (onMouseOver) {
@@ -39,6 +48,25 @@ function OfferCard ({offerData, page, onMouseOver}: OfferCardProps): JSX.Element
   };
 
   const imgSize = getImgSizeByPage(page);
+
+  const onAuthStatusClick = (pathParams: FavoriteStatusType) => {
+    dispatch(changeFavoriteStatus(pathParams));
+  };
+
+  const favoriteStatus = !offerData.isFavorite ? 1 : 0;
+
+  const onBookmarkClickHandler = (evt: MouseEvent<HTMLButtonElement>) => {
+    evt.preventDefault();
+
+    if (authorizationStatus === AuthorizationStatus.Auth) {
+      onAuthStatusClick({
+        hotelId: offerData.id,
+        status: favoriteStatus,
+      });
+    } else {
+      dispatch(redirectToRoute(AppRoute.Login));
+    }
+  };
 
   return (
     <article
@@ -70,6 +98,7 @@ function OfferCard ({offerData, page, onMouseOver}: OfferCardProps): JSX.Element
           <button
             className={`${isMark} place-card__bookmark-button button`}
             type="button"
+            onClick={onBookmarkClickHandler}
           >
             <svg
               className="place-card__bookmark-icon"
