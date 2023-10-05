@@ -27,7 +27,6 @@ import {
   getNearbyOffers,
   getNearbyOffersDataLoadingStatus,
   getReviews,
-  getReviewsDataLoadingStatus,
   getErrorStatus,
 } from '../../store/offers-data/offers-data-selector';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
@@ -49,14 +48,13 @@ function OfferScreen(): JSX.Element {
 
   const isOfferDataLoading = useAppSelector(getCurrentOfferDataLoadingStatus);
   const isNearbyOffersDataLoading = useAppSelector(getNearbyOffersDataLoadingStatus);
-  const isReviewsDataLoading = useAppSelector(getReviewsDataLoadingStatus);
   const currentOffer = useAppSelector(getCurrentOffer);
   const offersNearby = useAppSelector(getNearbyOffers);
   const reviews = useAppSelector(getReviews);
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const hasError = useAppSelector(getErrorStatus);
 
-  if (isOfferDataLoading || isNearbyOffersDataLoading || isReviewsDataLoading) {
+  if (isOfferDataLoading || isNearbyOffersDataLoading) {
     return (
       <LoadingScreen />
     );
@@ -203,15 +201,14 @@ function OfferScreen(): JSX.Element {
                 <h2 className="reviews__title">
                   Reviews · <span className="reviews__amount">{reviews.length}</span>
                 </h2>
-                <ReviewsList
-                  reviews={reviews}
-                />
+                <ReviewsList reviews={reviews}/>
                 {(authorizationStatus === AuthorizationStatus.Auth && params.id) ? <FeedbackForm offerId={params.id} /> : null}
               </section>
             </div>
           </div>
           <section className="property__map map">
             <Map
+              currentOffer={currentOffer}
               offers={offersNearby}
               selectedPoint={selectedPoint}
             />

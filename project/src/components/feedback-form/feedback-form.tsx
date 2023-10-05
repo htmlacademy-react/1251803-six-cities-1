@@ -1,23 +1,39 @@
 import {useState, ChangeEvent, FormEvent} from 'react';
 import { SendComment } from '../../types/send-comment';
-import { useAppDispatch } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { sendCommentAction } from '../../store/api-actions';
+import { getReviewsDataLoadingStatus } from '../../store/offers-data/offers-data-selector';
 
 type FeedbackFormProps = {
   offerId: string;
 }
 
 function FeedbackForm ({offerId}: FeedbackFormProps): JSX.Element {
+  const isReviewsDataLoading = useAppSelector(getReviewsDataLoadingStatus);
+
   const [feedbackText, setFeedbackText] = useState('');
   const [rating, setRating] = useState('');
   const dispatch = useAppDispatch();
+
+  let isDisabledButton = true;
+  let isValidData = false;
+
+  if (50 <= feedbackText.length && feedbackText.length <= 300 && rating) {
+    isDisabledButton = false;
+    isValidData = true;
+  }
+
+  if (isReviewsDataLoading) {
+    isDisabledButton = true;
+    isValidData = false;
+  }
 
   const fieldChangeHandle = ({target}: ChangeEvent<HTMLTextAreaElement>) => {
     const value = target.value;
     setFeedbackText(value);
   };
 
-  const chengeRatingValueHandler = ({target}: ChangeEvent<HTMLInputElement>) => {
+  const changeRatingValueHandler = ({target}: ChangeEvent<HTMLInputElement>) => {
     const value = target.value;
     setRating(value);
   };
@@ -29,7 +45,7 @@ function FeedbackForm ({offerId}: FeedbackFormProps): JSX.Element {
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
-    if (feedbackText && rating) {
+    if (isValidData) {
       onSubmit({
         hotelId: offerId,
         rating: rating,
@@ -55,7 +71,7 @@ function FeedbackForm ({offerId}: FeedbackFormProps): JSX.Element {
           defaultValue={5}
           id="5-stars"
           type="radio"
-          onChange={chengeRatingValueHandler}
+          onChange={changeRatingValueHandler}
         />
         <label
           htmlFor="5-stars"
@@ -72,7 +88,7 @@ function FeedbackForm ({offerId}: FeedbackFormProps): JSX.Element {
           defaultValue={4}
           id="4-stars"
           type="radio"
-          onChange={chengeRatingValueHandler}
+          onChange={changeRatingValueHandler}
         />
         <label
           htmlFor="4-stars"
@@ -89,7 +105,7 @@ function FeedbackForm ({offerId}: FeedbackFormProps): JSX.Element {
           defaultValue={3}
           id="3-stars"
           type="radio"
-          onChange={chengeRatingValueHandler}
+          onChange={changeRatingValueHandler}
         />
         <label
           htmlFor="3-stars"
@@ -106,7 +122,7 @@ function FeedbackForm ({offerId}: FeedbackFormProps): JSX.Element {
           defaultValue={2}
           id="2-stars"
           type="radio"
-          onChange={chengeRatingValueHandler}
+          onChange={changeRatingValueHandler}
         />
         <label
           htmlFor="2-stars"
@@ -123,7 +139,7 @@ function FeedbackForm ({offerId}: FeedbackFormProps): JSX.Element {
           defaultValue={1}
           id="1-star"
           type="radio"
-          onChange={chengeRatingValueHandler}
+          onChange={changeRatingValueHandler}
         />
         <label
           htmlFor="1-star"
@@ -153,7 +169,7 @@ function FeedbackForm ({offerId}: FeedbackFormProps): JSX.Element {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          // disabled
+          disabled={isDisabledButton}
         >
           Submit
         </button>
