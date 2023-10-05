@@ -19,7 +19,7 @@ function Header(): JSX.Element {
     dispatch(logoutAction());
   };
 
-  const email = userData?.email ?? 'lazarev@gmail.com';
+  const email = userData?.email;
 
   return (
     <header className='header'>

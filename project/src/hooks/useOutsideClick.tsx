@@ -1,7 +1,5 @@
 import { RefObject, useEffect, useRef } from 'react';
 
-// TODO пришлось передавать ещё один реф для кнопки. Можно ли как-то перенести логику с исключение кнопки с сам компонент SortOptions
-
 function useOutsideClick (
   ref: RefObject<HTMLElement | null>,
   refBtn: RefObject<HTMLElement | null>,

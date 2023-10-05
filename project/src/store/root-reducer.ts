@@ -1,8 +1,8 @@
-import {combineReducers} from '@reduxjs/toolkit';
-import {NameSpace} from '../const';
-import {offersData} from './offers-data/offers-data';
-import {userProcess} from './user-process/user-process';
-import {citiesProcess} from './cties-process/cities-process';
+import { combineReducers } from '@reduxjs/toolkit';
+import { NameSpace } from '../const';
+import { offersData } from './offers-data/offers-data';
+import { userProcess } from './user-process/user-process';
+import { citiesProcess } from './cities-process/cities-process';
 import { favoriteData } from './favorite-data/favorite-data';
 
 export const rootReducer = combineReducers({
