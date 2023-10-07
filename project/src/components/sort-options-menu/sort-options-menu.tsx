@@ -12,15 +12,15 @@ function SortOptionsMenu ({currentSortOption, onChangeSortOption}: SortOptionsMe
   const optionsListRef = useRef(null);
   const sortingBtnRef = useRef(null);
 
-  const onSortingBtnClickHandle = () => {
+  const handleOnSortingBtnClick = () => {
     setIsOpened(!isOpened);
   };
-  const onOutSideClickHandle = () => {
+  const handleOnOutSideClick = () => {
     setIsOpened(false);
   };
-  useOutsideClick(optionsListRef, sortingBtnRef, onOutSideClickHandle);
+  useOutsideClick(optionsListRef, sortingBtnRef, handleOnOutSideClick);
 
-  const onSortOptionClickHandle = (option: string) => {
+  const handleOnSortOptionClick = (option: string) => {
     onChangeSortOption(option);
     setIsOpened(false);
   };
@@ -31,7 +31,7 @@ function SortOptionsMenu ({currentSortOption, onChangeSortOption}: SortOptionsMe
       <span
         className="places__sorting-type"
         tabIndex={0}
-        onClick={onSortingBtnClickHandle}
+        onClick={handleOnSortingBtnClick}
         ref={sortingBtnRef}
       >
         {currentSortOption}
@@ -50,7 +50,7 @@ function SortOptionsMenu ({currentSortOption, onChangeSortOption}: SortOptionsMe
               key={option}
               className={`places__option ${isActive}`}
               tabIndex={0}
-              onClick={() => {onSortOptionClickHandle(option);}}
+              onClick={() => {handleOnSortOptionClick(option);}}
             >
               {option}
             </li>
