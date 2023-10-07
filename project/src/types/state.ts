@@ -28,6 +28,7 @@ export type CitiesProcess = {
 
 export type UserProcess = {
   authorizationStatus: AuthorizationStatus;
+  authorizationLoadingStatus: boolean;
   userData: UserData | null;
 };
 

@@ -62,7 +62,7 @@ function Map({offers, selectedPoint, currentOffer}: MapProps) {
         map.removeLayer(placeLayer);
       };
     }
-  }, [map, offers, selectedPoint, city]);
+  }, [map, offers, selectedPoint, city, currentOffer]);
 
   return (
     <section

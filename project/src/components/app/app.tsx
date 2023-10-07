@@ -5,7 +5,7 @@ import browserHistory from '../../browser-history';
 import HistoryRouter from '../history-router/history-router';
 import PrivateRoute from '../private-route/private-route';
 
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { AppRoute } from '../../const';
 import ScrollToTop from '../scroll-to-top/scroll-to-top';
 
@@ -16,15 +16,22 @@ import OfferScreen from '../../pages/offer-screen/offer-screen';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import LoadingScreen from '../../pages/loading-screen/loading-screen';
 
-import { getAuthCheckedStatus } from '../../store/user-process/selectors';
+import { getAuthCheckedStatus, getAuthorizationLoadingStatus } from '../../store/user-process/selectors';
 import { getOffersDataLoadingStatus } from '../../store/offers-data/offers-data-selector';
-
+import { fetchFavoriteOffersAction } from '../../store/api-actions';
 function App(): JSX.Element {
   const isAuthChecked = useAppSelector(getAuthCheckedStatus);
   const isOffersDataLoading = useAppSelector(getOffersDataLoadingStatus);
+  const isAuthorizationLoading = useAppSelector(getAuthorizationLoadingStatus);
+  const dispatch = useAppDispatch();
 
-  if (!isAuthChecked || isOffersDataLoading) {
+
+  if (isAuthorizationLoading || isOffersDataLoading) {
     return <LoadingScreen />;
+  }
+
+  if (isAuthChecked) {
+    dispatch(fetchFavoriteOffersAction());
   }
 
   return (

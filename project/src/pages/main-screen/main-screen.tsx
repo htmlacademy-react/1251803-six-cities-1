@@ -6,7 +6,7 @@ import Map from '../../components/map/map';
 import { useState } from 'react';
 import { useAppSelector } from '../../hooks';
 import CitiesList from '../../components/cities-list/cities-list';
-import { Cities } from '../../const';
+import { Cities, SortOptionsEnum } from '../../const';
 import SortOptionsMenu from '../../components/sort-options-menu/sort-options-menu';
 import { getCity } from '../../store/cities-process/cities-process-selector';
 import { getOffers } from '../../store/offers-data/offers-data-selector';
@@ -16,8 +16,7 @@ function MainScreen(): JSX.Element {
   const [selectedPoint, setSelectedPoint] = useState<Offer | undefined>(
     undefined
   );
-  const [selectedSortOption, setSelectedSortOption] =
-    useState<string>('Popular');
+  const [selectedSortOption, setSelectedSortOption] = useState<string>('Popular');
 
   const city = useAppSelector(getCity);
   const offers = useAppSelector(getOffers);
@@ -36,17 +35,17 @@ function MainScreen(): JSX.Element {
 
   const sortingOffers = (sortOption: string, offersForSorting: Offers) => {
     switch (sortOption) {
-      case 'Popular':
+      case SortOptionsEnum.Popular:
         return offersForSorting;
-      case 'Price: low to high':
+      case SortOptionsEnum.PriceLowToHigh:
         return offersForSorting.sort(
           (offerA, offerB) => offerA.price - offerB.price
         );
-      case 'Price: high to low':
+      case SortOptionsEnum.PriceHighToLow:
         return offersForSorting.sort(
           (offerA, offerB) => offerB.price - offerA.price
         );
-      case 'Top rated first':
+      case SortOptionsEnum.TopRatedFirst:
         return offersForSorting.sort(
           (offerA, offerB) => offerB.rating - offerA.rating
         );

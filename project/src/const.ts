@@ -36,6 +36,13 @@ export const SortOptions = [
   'Top rated first'
 ];
 
+export enum SortOptionsEnum {
+  Popular = 'Popular',
+  PriceLowToHigh = 'Price: low to high',
+  PriceHighToLow = 'Price: high to low',
+  TopRatedFirst = 'Top rated first',
+}
+
 export enum APIRoute {
   Offers = '/hotels',
   Login = '/login',
