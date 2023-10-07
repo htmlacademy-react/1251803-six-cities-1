@@ -55,7 +55,7 @@ function OfferCard ({offerData, page, onMouseOver}: OfferCardProps): JSX.Element
 
   const favoriteStatus = !offerData.isFavorite ? 1 : 0;
 
-  const onBookmarkClickHandler = (evt: MouseEvent<HTMLButtonElement>) => {
+  const handleOnBookmarkClick = (evt: MouseEvent<HTMLButtonElement>) => {
     evt.preventDefault();
 
     if (authorizationStatus === AuthorizationStatus.Auth) {
@@ -98,7 +98,7 @@ function OfferCard ({offerData, page, onMouseOver}: OfferCardProps): JSX.Element
           <button
             className={`${isMark} place-card__bookmark-button button`}
             type="button"
-            onClick={onBookmarkClickHandler}
+            onClick={handleOnBookmarkClick}
           >
             <svg
               className="place-card__bookmark-icon"

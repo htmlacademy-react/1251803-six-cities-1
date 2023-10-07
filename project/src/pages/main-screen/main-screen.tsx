@@ -27,7 +27,7 @@ function MainScreen(): JSX.Element {
     setSelectedPoint(currentPoint);
   };
 
-  const changeSortOptionHandle = (option: string) => {
+  const handleChangeSortOption = (option: string) => {
     setSelectedSortOption(option);
   };
 
@@ -84,7 +84,7 @@ function MainScreen(): JSX.Element {
                 </b>
                 <SortOptionsMenu
                   currentSortOption={selectedSortOption}
-                  onChangeSortOption={changeSortOptionHandle}
+                  onChangeSortOption={handleChangeSortOption}
                 />
                 <OffersList
                   offersData={sortOffers}

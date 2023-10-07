@@ -14,7 +14,7 @@ function CitiesList({ cities }: CitiesListProps): JSX.Element {
   return (
     <ul className="locations__list tabs__list">
       {cities.map((city) => {
-        const onClickHandle = () => {
+        const handleOnClick = () => {
           dispatch(changeCity(city));
         };
 
@@ -24,7 +24,7 @@ function CitiesList({ cities }: CitiesListProps): JSX.Element {
             <a
               className={`locations__item-link tabs__item ${isActive}`}
               href={`#${city}`}
-              onClick={onClickHandle}
+              onClick={handleOnClick}
             >
               <span>{city}</span>
             </a>

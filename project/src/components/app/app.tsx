@@ -19,19 +19,21 @@ import LoadingScreen from '../../pages/loading-screen/loading-screen';
 import { getAuthCheckedStatus, getAuthorizationLoadingStatus } from '../../store/user-process/selectors';
 import { getOffersDataLoadingStatus } from '../../store/offers-data/offers-data-selector';
 import { fetchFavoriteOffersAction } from '../../store/api-actions';
+import { useEffect } from 'react';
 function App(): JSX.Element {
   const isAuthChecked = useAppSelector(getAuthCheckedStatus);
   const isOffersDataLoading = useAppSelector(getOffersDataLoadingStatus);
   const isAuthorizationLoading = useAppSelector(getAuthorizationLoadingStatus);
   const dispatch = useAppDispatch();
 
+  useEffect(() => {
+    if (isAuthChecked) {
+      dispatch(fetchFavoriteOffersAction());
+    }
+  }, [isAuthChecked, dispatch]);
 
   if (isAuthorizationLoading || isOffersDataLoading) {
     return <LoadingScreen />;
-  }
-
-  if (isAuthChecked) {
-    dispatch(fetchFavoriteOffersAction());
   }
 
   return (

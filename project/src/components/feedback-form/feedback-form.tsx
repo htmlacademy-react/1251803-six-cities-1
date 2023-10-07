@@ -28,20 +28,18 @@ function FeedbackForm ({offerId}: FeedbackFormProps): JSX.Element {
     isValidData = false;
   }
 
-  const fieldChangeHandle = ({target}: ChangeEvent<HTMLTextAreaElement>) => {
+  const handleFieldChange = ({target}: ChangeEvent<HTMLTextAreaElement>) => {
     const value = target.value;
     setFeedbackText(value);
   };
 
-  const changeRatingValueHandler = ({target}: ChangeEvent<HTMLInputElement>) => {
+  const handleChangeRatingValue = ({target}: ChangeEvent<HTMLInputElement>) => {
     const value = target.value;
     setRating(value);
   };
 
   const onSubmit = (authData: SendComment) => {
     dispatch(sendCommentAction(authData));
-    // setRating('');
-    // setFeedbackText('');
   };
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
@@ -53,6 +51,9 @@ function FeedbackForm ({offerId}: FeedbackFormProps): JSX.Element {
         rating: rating,
         comment: feedbackText,
       });
+
+      setRating('');
+      setFeedbackText('');
     }
   };
 
@@ -70,10 +71,11 @@ function FeedbackForm ({offerId}: FeedbackFormProps): JSX.Element {
         <input
           className="form__rating-input visually-hidden"
           name="rating"
-          defaultValue={5}
+          checked={rating === '5'}
+          value={'5'}
           id="5-stars"
           type="radio"
-          onChange={changeRatingValueHandler}
+          onChange={handleChangeRatingValue}
         />
         <label
           htmlFor="5-stars"
@@ -87,10 +89,11 @@ function FeedbackForm ({offerId}: FeedbackFormProps): JSX.Element {
         <input
           className="form__rating-input visually-hidden"
           name="rating"
-          defaultValue={4}
+          checked={rating === '4'}
+          value={'4'}
           id="4-stars"
           type="radio"
-          onChange={changeRatingValueHandler}
+          onChange={handleChangeRatingValue}
         />
         <label
           htmlFor="4-stars"
@@ -104,10 +107,11 @@ function FeedbackForm ({offerId}: FeedbackFormProps): JSX.Element {
         <input
           className="form__rating-input visually-hidden"
           name="rating"
-          defaultValue={3}
+          checked={rating === '3'}
+          value={'3'}
           id="3-stars"
           type="radio"
-          onChange={changeRatingValueHandler}
+          onChange={handleChangeRatingValue}
         />
         <label
           htmlFor="3-stars"
@@ -121,10 +125,11 @@ function FeedbackForm ({offerId}: FeedbackFormProps): JSX.Element {
         <input
           className="form__rating-input visually-hidden"
           name="rating"
-          defaultValue={2}
+          checked={rating === '2'}
+          value={'2'}
           id="2-stars"
           type="radio"
-          onChange={changeRatingValueHandler}
+          onChange={handleChangeRatingValue}
         />
         <label
           htmlFor="2-stars"
@@ -138,10 +143,11 @@ function FeedbackForm ({offerId}: FeedbackFormProps): JSX.Element {
         <input
           className="form__rating-input visually-hidden"
           name="rating"
-          defaultValue={1}
+          checked={rating === '1'}
+          value={'1'}
           id="1-star"
           type="radio"
-          onChange={changeRatingValueHandler}
+          onChange={handleChangeRatingValue}
         />
         <label
           htmlFor="1-star"
@@ -158,8 +164,8 @@ function FeedbackForm ({offerId}: FeedbackFormProps): JSX.Element {
         id="review"
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
-        defaultValue={''}
-        onChange={fieldChangeHandle}
+        value={feedbackText}
+        onChange={handleFieldChange}
       />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
