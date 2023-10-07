@@ -9,11 +9,11 @@ type FeedbackFormProps = {
 }
 
 function FeedbackForm ({offerId}: FeedbackFormProps): JSX.Element {
+  const dispatch = useAppDispatch();
   const isReviewsDataLoading = useAppSelector(getReviewsDataLoadingStatus);
 
   const [feedbackText, setFeedbackText] = useState('');
   const [rating, setRating] = useState('');
-  const dispatch = useAppDispatch();
 
   let isDisabledButton = true;
   let isValidData = false;
@@ -40,6 +40,8 @@ function FeedbackForm ({offerId}: FeedbackFormProps): JSX.Element {
 
   const onSubmit = (authData: SendComment) => {
     dispatch(sendCommentAction(authData));
+    // setRating('');
+    // setFeedbackText('');
   };
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
