@@ -7,7 +7,6 @@ import PrivateRoute from '../private-route/private-route';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { AppRoute } from '../../const';
-import ScrollToTop from '../scroll-to-top/scroll-to-top';
 
 import MainScreen from '../../pages/main-screen/main-screen';
 import LoginScreen from '../../pages/login-screen/login-screen';
@@ -17,14 +16,19 @@ import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import LoadingScreen from '../../pages/loading-screen/loading-screen';
 
 import { getAuthCheckedStatus, getAuthorizationLoadingStatus } from '../../store/user-process/selectors';
-import { getOffersDataLoadingStatus } from '../../store/offers-data/offers-data-selector';
+import { getOffersDataLoadingStatus, getErrorStatus } from '../../store/offers-data/offers-data-selector';
 import { fetchFavoriteOffersAction } from '../../store/api-actions';
 import { useEffect } from 'react';
+import useScrollToTop from '../../hooks/useScrollToTop';
+
 function App(): JSX.Element {
   const isAuthChecked = useAppSelector(getAuthCheckedStatus);
   const isOffersDataLoading = useAppSelector(getOffersDataLoadingStatus);
   const isAuthorizationLoading = useAppSelector(getAuthorizationLoadingStatus);
+  const isHasError = useAppSelector(getErrorStatus);
   const dispatch = useAppDispatch();
+
+  useScrollToTop();
 
   useEffect(() => {
     if (isAuthChecked) {
@@ -36,10 +40,13 @@ function App(): JSX.Element {
     return <LoadingScreen />;
   }
 
+  if (isHasError) {
+    return <div>Сервер не доступен</div>;
+  }
+
   return (
     <HelmetProvider>
       <HistoryRouter history={browserHistory}>
-        <ScrollToTop />
         <Routes>
           <Route path={AppRoute.Root}>
             <Route index element={<MainScreen />} />

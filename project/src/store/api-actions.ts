@@ -19,7 +19,7 @@ export const fetchFavoriteOffersAction = createAsyncThunk<Offers, undefined, {
   extra: AxiosInstance;
 }>(
   'favorite/fetchFavoriteOffers',
-  async (_arg, {dispatch, extra: api}) => {
+  async (_arg, {extra: api}) => {
     const {data} = await api.get<Offers>(APIRoute.Favorite);
     return data;
   },
@@ -45,7 +45,7 @@ export const fetchOffersAction = createAsyncThunk<Offers, undefined, {
   extra: AxiosInstance;
 }>(
   'data/fetchOffers',
-  async (_arg, {dispatch, extra: api}) => {
+  async (_arg, {extra: api}) => {
     const {data} = await api.get<Offers>(APIRoute.Offers);
     return data;
   },
@@ -57,7 +57,7 @@ export const fetchOfferAction = createAsyncThunk<Offer, string, {
   extra: AxiosInstance;
 }>(
   'data/fetchOffer',
-  async (hotelId, {dispatch, extra: api}) => {
+  async (hotelId, {extra: api}) => {
     const {data} = await api.get<Offer>(`${APIRoute.Offers}/${hotelId}`);
     return data;
   },
@@ -69,7 +69,7 @@ export const fetchReviewsAction = createAsyncThunk<Reviews, string, {
   extra: AxiosInstance;
 }>(
   'data/fetchReviews',
-  async (hotelId, {dispatch, extra: api}) => {
+  async (hotelId, {extra: api}) => {
     const {data} = await api.get<Reviews>(`${APIRoute.Reviews}/${hotelId}`);
     return data;
   },
@@ -81,7 +81,7 @@ export const fetchNearbyOffersAction = createAsyncThunk<Offers, string, {
   extra: AxiosInstance;
 }>(
   'data/fetchNearbyOffers',
-  async (hotelId, {dispatch, extra: api}) => {
+  async (hotelId, {extra: api}) => {
     const {data} = await api.get<Offers>(`${APIRoute.Offers}/${hotelId}/nearby`);
     return data;
   },
@@ -93,7 +93,7 @@ export const sendCommentAction = createAsyncThunk<Reviews, SendComment, {
   extra: AxiosInstance;
 }>(
   'data/sendComment',
-  async ({hotelId, rating, comment}, {dispatch, extra: api}) => {
+  async ({hotelId, rating, comment}, {extra: api}) => {
     const {data} = await api.post<Reviews>(`${APIRoute.Reviews}/${hotelId}`, {rating, comment});
     return data;
   },

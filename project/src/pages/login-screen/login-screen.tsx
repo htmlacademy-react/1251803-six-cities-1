@@ -73,6 +73,8 @@ function LoginScreen(): JSX.Element {
                   className='login__input form__input'
                   type='password'
                   name='password'
+                  minLength={2}
+                  pattern='^(?=.*\d)(?=.*[a-zA-Z])(?!.*\s).*$'
                   placeholder='Password'
                   ref={passwordRef}
                   required

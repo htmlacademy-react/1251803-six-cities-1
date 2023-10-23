@@ -3,6 +3,7 @@ import { SendComment } from '../../types/send-comment';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { sendCommentAction } from '../../store/api-actions';
 import { getReviewsDataLoadingStatus } from '../../store/offers-data/offers-data-selector';
+import { CharacterRange } from '../../const';
 
 type FeedbackFormProps = {
   offerId: string;
@@ -18,7 +19,7 @@ function FeedbackForm ({offerId}: FeedbackFormProps): JSX.Element {
   let isDisabledButton = true;
   let isValidData = false;
 
-  if (50 <= feedbackText.length && feedbackText.length <= 300 && rating) {
+  if (CharacterRange.min <= feedbackText.length && feedbackText.length <= CharacterRange.max && rating) {
     isDisabledButton = false;
     isValidData = true;
   }

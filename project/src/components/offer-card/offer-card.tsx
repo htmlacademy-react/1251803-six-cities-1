@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { MouseEvent } from 'react';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import { useAppSelector, useAppDispatch } from '../../hooks';
-import { AppRoute, AuthorizationStatus } from '../../const';
+import { AppRoute, AuthorizationStatus, ImageDimensions } from '../../const';
 import { redirectToRoute } from '../../store/action';
 import { changeFavoriteStatus } from '../../store/api-actions';
 import { FavoriteStatusType } from '../../types/favorite-status-type';
@@ -28,19 +28,19 @@ function OfferCard ({offerData, page, onMouseOver}: OfferCardProps): JSX.Element
 
   const getImgSizeByPage = (pageName: string) => {
     const imgSize = {
-      width: 260,
-      height: 200,
+      width: ImageDimensions.bigImg.width,
+      height: ImageDimensions.bigImg.height,
     };
 
     switch(pageName) {
       case Pages.Main:
-        imgSize.width = 260;
-        imgSize.height = 200;
+        imgSize.width = ImageDimensions.bigImg.width;
+        imgSize.height = ImageDimensions.bigImg.height;
         break;
 
       case Pages.Favorites:
-        imgSize.width = 150;
-        imgSize.height = 100;
+        imgSize.width = ImageDimensions.smallImg.width;
+        imgSize.height = ImageDimensions.smallImg.height;
         break;
     }
 

@@ -58,6 +58,22 @@ export enum NameSpace {
   Favorite = 'FAVORITE',
 }
 
+export const ImageDimensions = {
+  bigImg: {
+    width: 260,
+    height: 200,
+  },
+  smallImg: {
+    width: 150,
+    height: 100,
+  },
+};
+
+export const CharacterRange = {
+  min: 50,
+  max: 300,
+};
+
 export const URL_MARKER_DEFAULT = '/img/pin.svg';
 
 export const URL_MARKER_CURRENT = '/img/pin-active.svg';
