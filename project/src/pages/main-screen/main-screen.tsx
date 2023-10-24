@@ -16,7 +16,7 @@ function MainScreen(): JSX.Element {
   const [selectedPoint, setSelectedPoint] = useState<Offer | undefined>(
     undefined
   );
-  const [selectedSortOption, setSelectedSortOption] = useState<string>('Popular');
+  const [selectedSortOption, setSelectedSortOption] = useState<string>(SortOptionsEnum.Popular);
 
   const city = useAppSelector(getCity);
   const offers = useAppSelector(getOffers);
